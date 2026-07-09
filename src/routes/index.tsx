@@ -71,6 +71,8 @@ const LINHAGEM_2 = [
 
 function HomePage() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 40);
     on();
@@ -117,12 +119,52 @@ function HomePage() {
             ))}
           </nav>
 
-          <Link
-            to="/triagem"
-            className="hidden sm:inline-flex btn-gold btn-gold-hover rounded-full px-5 py-2 text-xs font-medium uppercase tracking-[0.2em]"
-          >
-            Quero ser um Maçom
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              to="/triagem"
+              className="hidden sm:inline-flex btn-gold btn-gold-hover rounded-full px-5 py-2 text-xs font-medium uppercase tracking-[0.2em]"
+            >
+              Quero ser um Maçom
+            </Link>
+
+            {/* Hamburger - mobile only */}
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="lg:hidden flex flex-col gap-1.5 w-9 h-9 items-center justify-center rounded-full border border-border-gold/30 hover:border-gold/60 transition-colors"
+              aria-label="Menu"
+            >
+              <span className={`block w-4.5 h-0.5 bg-gold transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} style={{ width: "18px" }} />
+              <span className={`block h-0.5 bg-gold transition-all duration-300 ${menuOpen ? "opacity-0 w-0" : "w-[18px]"}`} />
+              <span className={`block h-0.5 bg-gold transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2 w-[18px]" : "w-[18px]"}`} />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile dropdown */}
+        <div
+          className={`lg:hidden overflow-hidden transition-all duration-300 border-t border-border-gold/20 ${
+            menuOpen ? "max-h-[400px] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <div className="px-6 py-4 flex flex-col gap-1 bg-background/95 backdrop-blur-xl">
+            {NAV.map((n) => (
+              <a
+                key={n.href}
+                href={n.href}
+                onClick={() => setMenuOpen(false)}
+                className="text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-gold transition-colors py-2.5 border-b border-border-gold/10 last:border-0"
+              >
+                {n.label}
+              </a>
+            ))}
+            <Link
+              to="/triagem"
+              onClick={() => setMenuOpen(false)}
+              className="mt-3 btn-gold btn-gold-hover rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-center"
+            >
+              Quero ser um Maçom
+            </Link>
+          </div>
         </div>
       </header>
 

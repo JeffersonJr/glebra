@@ -17,117 +17,231 @@ export function MembershipCard({ member, viewMode = "digital" }: MembershipCardP
     if (typeof window !== "undefined") {
       const validationUrl = `${window.location.origin}/membros/carteirinha/validar?id=${member.id}`;
       const encoded = encodeURIComponent(validationUrl);
-      setQrUrl(`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encoded}`);
+      setQrUrl(`https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=0a0d14&bgcolor=ffffff&data=${encoded}`);
     }
   }, [member.id]);
 
+  /* ───────────────────────────────────────────
+     PRINT MODE — horizontal side-by-side cards
+     (same layout as União Fraternal)
+  ─────────────────────────────────────────── */
   if (viewMode === "print") {
     return (
-      <div className="w-[340px] bg-gradient-to-br from-[#0A0D14] via-[#0F1520] to-[#0A0D14] border-2 border-[#C5A059] rounded-2xl p-5 shadow-[0_0_30px_rgba(197,160,89,0.3)] flex flex-col justify-between min-h-[200px]">
-        <div className="flex items-center justify-between border-b border-[#C5A059]/40 pb-3">
-          <div className="flex items-center gap-2.5">
-            <img src={logoUrl} alt="GLEBRA" className="h-9 w-9 drop-shadow-[0_0_4px_rgba(197,160,89,0.5)]" />
+      <div className="flex flex-col md:flex-row gap-8 justify-center items-center w-full max-w-5xl select-none print:flex-row print:gap-4 print:justify-center">
+
+        {/* FRONT CARD (Horizontal) */}
+        <div className="relative w-[460px] h-[280px] rounded-2xl p-5 bg-gradient-to-b from-[#0A0D14] to-[#0F1520] border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.15)] flex flex-col justify-between overflow-hidden print:shadow-none">
+          {/* Watermark */}
+          <div className="absolute inset-0 opacity-[0.04] flex items-center justify-center pointer-events-none">
+            <img src={logoUrl} alt="" className="w-[85%] h-[85%] object-contain" />
+          </div>
+
+          {/* Header */}
+          <div className="relative z-10 flex items-center justify-between border-b border-[#C5A059]/40 pb-2">
+            <div className="flex items-center gap-2.5">
+              <img src={logoUrl} alt="GLEBRA" className="h-9 w-9 drop-shadow-[0_0_6px_rgba(197,160,89,0.5)]" />
+              <div>
+                <h3 className="text-[9px] uppercase tracking-[0.2em] text-[#C5A059] leading-none font-bold">G.L.E.B.R.A.</h3>
+                <h2 className="font-display text-sm font-bold text-white leading-tight">Grande Loja Egípcia Brasileira</h2>
+                <p className="text-[7px] uppercase tracking-[0.05em] text-white/50">Maçonaria Egípcia de Memphis e Misraim</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-emerald-900/30 text-emerald-400 border border-emerald-700/30 tracking-wider uppercase">
+                Membro Regular
+              </span>
+            </div>
+          </div>
+
+          {/* Body */}
+          <div className="relative z-10 grid grid-cols-[100px_1fr] gap-4 items-center my-auto">
+            {/* Photo + CIM */}
+            <div className="flex flex-col items-center">
+              <div className="w-[90px] h-[90px] rounded-xl overflow-hidden border border-[#C5A059] bg-black/20 flex items-center justify-center">
+                {member.photo ? (
+                  <img src={member.photo} alt={member.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+                ) : (
+                  <span className="font-display text-[#C5A059] text-3xl">{member.name.charAt(0)}</span>
+                )}
+              </div>
+              <div className="mt-2 text-center">
+                <span className="text-[7px] text-white/50 uppercase tracking-widest block">CIM</span>
+                <span className="text-xs font-bold text-white">{member.cim}</span>
+              </div>
+            </div>
+
+            {/* Details */}
+            <div className="space-y-2">
+              <div className="flex justify-between items-start gap-2">
+                <div className="overflow-hidden">
+                  <span className="text-[7px] text-white/50 uppercase tracking-wider block">Nome do Ir.·.</span>
+                  <h3 className="font-display text-lg font-bold text-white leading-tight truncate">{member.name}</h3>
+                </div>
+                {member.isHonorary && (
+                  <Badge variant="secondary" className="text-[8px] uppercase tracking-wider bg-[#C5A059]/10 text-[#C5A059] border-[#C5A059]/30 mt-1 shrink-0">
+                    Honorário
+                  </Badge>
+                )}
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 border-t border-[#C5A059]/20 pt-2">
+                <div>
+                  <span className="text-[7px] text-white/50 uppercase tracking-wider block">Grau Maçônico</span>
+                  <span className="text-xs font-semibold text-[#C5A059]">{member.role}</span>
+                </div>
+                <div>
+                  <span className="text-[7px] text-white/50 uppercase tracking-wider block">Data Iniciação</span>
+                  <span className="text-xs font-medium text-white">{member.initiationDate}</span>
+                </div>
+                {member.office && (
+                  <div className="col-span-2 border-t border-[#C5A059]/15 pt-1">
+                    <span className="text-[7px] text-white/50 uppercase tracking-wider block">Cargo na Loja</span>
+                    <span className="text-xs font-bold text-[#C5A059]">{member.office}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="relative z-10 flex justify-between items-end border-t border-[#C5A059]/20 pt-2 text-[7px] text-white/40">
+            <div>
+              <p className="uppercase tracking-[0.15em] text-[#C5A059] font-bold leading-none mb-0.5">G.·. A.·. D.·. U.·.</p>
+              <p className="text-[6px] font-semibold text-white/50 leading-none">Filiada ao SOSEB</p>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <img src={logoSosebUrl} alt="SOSEB" className="h-8 w-8 object-contain opacity-80" />
+            </div>
+          </div>
+        </div>
+
+        {/* BACK CARD (Horizontal) */}
+        <div className="relative w-[460px] h-[280px] rounded-2xl p-5 bg-gradient-to-b from-[#0A0D14] to-[#0F1520] border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.15)] flex flex-col justify-between overflow-hidden print:shadow-none">
+          {/* Watermark */}
+          <div className="absolute inset-0 opacity-[0.04] flex items-center justify-center pointer-events-none">
+            <img src={logoUrl} alt="" className="w-[85%] h-[85%] object-contain" />
+          </div>
+
+          {/* Header */}
+          <div className="relative z-10 flex items-center gap-2 border-b border-[#C5A059]/40 pb-2">
+            <img src={logoUrl} alt="GLEBRA" className="h-7 w-7 drop-shadow-[0_0_4px_rgba(197,160,89,0.5)]" />
             <div>
               <h2 className="font-display text-xs font-bold text-white leading-tight">GLEBRA</h2>
-              <p className="text-[7px] uppercase tracking-[0.05em] text-[#C5A059]/90 font-bold">Maçonaria Egípcia de Memphis e Misraim</p>
+              <p className="text-[7px] uppercase tracking-[0.05em] text-white/50">Validação de Credencial Maçônica</p>
             </div>
           </div>
-          <div className="flex flex-col items-end">
-            <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-emerald-900/30 text-emerald-400 border border-emerald-700/30 tracking-wider uppercase">
-              Membro Regular
-            </span>
-          </div>
-        </div>
 
-        <div className="flex gap-4 items-center py-3">
-          <div className="w-16 h-16 rounded-xl overflow-hidden border border-[#C5A059] flex-shrink-0 bg-black/20">
-            {member.photo ? (
-              <img src={member.photo} alt={member.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            ) : (
-              <span className="flex items-center justify-center w-full h-full font-display text-[#C5A059] text-xl">{member.name.charAt(0)}</span>
-            )}
-          </div>
-          <div className="flex-1 min-w-0">
-            <h2 className="font-display text-sm font-bold text-white leading-snug">{member.name}</h2>
-            <p className="text-[#C5A059] uppercase tracking-[0.2em] text-[9px] font-bold mt-0.5">{member.role}</p>
-            {member.office && <p className="text-[#C5A059]/70 text-[9px] mt-0.5">{member.office}</p>}
-          </div>
-        </div>
+          {/* Body */}
+          <div className="relative z-10 grid grid-cols-[100px_1fr] gap-5 items-center my-auto">
+            {/* QR Code */}
+            <div className="flex flex-col items-center">
+              <div className="p-1.5 bg-white border border-[#C5A059]/40 rounded-xl shadow-sm max-w-[90px]">
+                {qrUrl ? (
+                  <img src={qrUrl} alt="QR Code" className="w-full h-auto" />
+                ) : (
+                  <div className="w-[75px] h-[75px] bg-gray-100 animate-pulse rounded-lg" />
+                )}
+              </div>
+            </div>
 
-        <div className="grid grid-cols-2 gap-2 border-t border-[#C5A059]/20 pt-2.5 text-[9px]">
-          <div>
-            <p className="text-[7px] uppercase tracking-widest text-[#C5A059]/60 mb-0.5">Iniciação</p>
-            <p className="text-white font-bold">{member.initiationDate}</p>
-          </div>
-          <div>
-            <p className="text-[7px] uppercase tracking-widest text-[#C5A059]/60 mb-0.5">CIM</p>
-            <p className="text-white font-bold">{member.cim}</p>
-          </div>
-        </div>
+            {/* Validation info + Signatures */}
+            <div className="space-y-4">
+              <div>
+                <p className="text-[#C5A059] uppercase tracking-[0.1em] text-[8px] font-bold">Autenticação Eletrônica</p>
+                <p className="text-[8px] text-white/50 leading-normal max-w-[280px]">
+                  Use a câmera do celular para escanear o QR Code ao lado. O sistema verificará a situação cadastral do irmão em tempo real.
+                </p>
+              </div>
 
-        <div className="flex justify-between items-end border-t border-[#C5A059]/20 pt-2.5 text-[8px] text-[#C5A059]/50">
-          <div>
-            <p className="uppercase tracking-[0.15em] text-[#C5A059] font-bold">G.·. A.·. D.·. U.·.</p>
-            <p className="mt-0.5 text-[7px] font-semibold text-white/60">Filiada ao SOSEB</p>
+              <div className="grid grid-cols-2 gap-3 pt-2 text-center">
+                <div className="flex flex-col items-center">
+                  <span className="font-serif italic text-[#C5A059] text-[10px] font-semibold leading-none mb-1">Venerável Mestre</span>
+                  <span className="w-20 h-[0.5px] bg-[#C5A059]/40 mb-0.5" />
+                  <span className="text-[6px] uppercase text-white/40">Venerável Mestre</span>
+                </div>
+                <div className="flex flex-col items-center">
+                  <span className="font-serif italic text-[#C5A059] text-[10px] font-semibold leading-none mb-1">Secretário</span>
+                  <span className="w-20 h-[0.5px] bg-[#C5A059]/40 mb-0.5" />
+                  <span className="text-[6px] uppercase text-white/40">Secretário</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <img src={logoSosebUrl} alt="SOSEB" className="h-8 w-8 object-contain opacity-80" />
+
+          {/* Footer */}
+          <div className="relative z-10 flex justify-between items-end border-t border-[#C5A059]/20 pt-2 text-[7px] text-white/40">
+            <div>
+              <p className="uppercase tracking-[0.1em] text-[#C5A059] font-bold leading-none mb-0.5">G.·. A.·. D.·. U.·.</p>
+              <p className="text-[6px] font-semibold text-white/50 leading-none">Filiada ao SOSEB</p>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <img src={logoSosebUrl} alt="SOSEB" className="h-6 w-6 object-contain opacity-70" />
+            </div>
+          </div>
         </div>
       </div>
     );
   }
 
+  /* ───────────────────────────────────────────
+     DIGITAL-PDF MODE — vertical single card
+  ─────────────────────────────────────────── */
   if (viewMode === "digital-pdf") {
     return (
-      <div className="w-[340px] min-h-[540px] bg-gradient-to-b from-[#0A0D14] to-[#0F1520] border-2 border-[#C5A059] rounded-2xl p-6 flex flex-col justify-between">
-        <div className="flex items-center gap-3 border-b border-[#C5A059]/40 pb-4">
-          <img src={logoUrl} alt="GLEBRA" className="h-12 w-12" />
-          <div>
-            <h2 className="font-display text-sm font-bold text-white">GLEBRA</h2>
-            <p className="text-[8px] uppercase tracking-[0.05em] text-[#C5A059]/90">Maçonaria Egípcia de Memphis e Misraim</p>
-          </div>
-        </div>
-
-        <div className="flex flex-col items-center my-auto py-4">
-          <div className="w-28 h-28 rounded-xl overflow-hidden border border-[#C5A059] mb-4 bg-black/20">
-            {member.photo ? (
-              <img src={member.photo} alt={member.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-            ) : (
-              <span className="flex items-center justify-center w-full h-full font-display text-[#C5A059] text-3xl">{member.name.charAt(0)}</span>
-            )}
-          </div>
-          <h2 className="font-display text-xl font-bold text-white text-center">{member.name}</h2>
-          <p className="text-[#C5A059] uppercase tracking-[0.2em] text-[10px] font-bold mt-1">{member.role}</p>
-
-          <div className="w-full grid grid-cols-2 gap-3 border-t border-b border-[#C5A059]/30 py-3.5 px-2.5 mt-4 rounded-xl">
+      <div className="flex flex-col items-center justify-center w-full print:w-full print:h-full">
+        <div className="w-[340px] min-h-[540px] bg-gradient-to-b from-[#0A0D14] to-[#0F1520] border-2 border-[#C5A059] rounded-2xl p-6 flex flex-col justify-between">
+          <div className="flex items-center gap-3 border-b border-[#C5A059]/40 pb-4">
+            <img src={logoUrl} alt="GLEBRA" className="h-12 w-12" />
             <div>
-              <p className="text-[7px] uppercase tracking-[0.1em] text-[#C5A059]/60 mb-0.5">Iniciação</p>
-              <p className="text-xs text-white font-bold">{member.initiationDate}</p>
+              <h2 className="font-display text-sm font-bold text-white">GLEBRA</h2>
+              <p className="text-[8px] uppercase tracking-[0.05em] text-[#C5A059]/90">Maçonaria Egípcia de Memphis e Misraim</p>
             </div>
-            <div>
-              <p className="text-[7px] uppercase tracking-[0.1em] text-[#C5A059]/60 mb-0.5">CIM Número</p>
-              <p className="text-xs text-white font-bold">{member.cim}</p>
+          </div>
+
+          <div className="flex flex-col items-center my-auto py-4">
+            <div className="w-28 h-28 rounded-xl overflow-hidden border border-[#C5A059] mb-4 bg-black/20">
+              {member.photo ? (
+                <img src={member.photo} alt={member.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
+              ) : (
+                <span className="flex items-center justify-center w-full h-full font-display text-[#C5A059] text-3xl">{member.name.charAt(0)}</span>
+              )}
             </div>
-            {member.office && (
-              <div className="col-span-2 border-t border-[#C5A059]/15 pt-2">
-                <p className="text-[7px] uppercase tracking-[0.1em] text-[#C5A059]/60 mb-0.5">Cargo na Loja</p>
-                <p className="text-xs text-[#C5A059] font-bold">{member.office}</p>
+            <h2 className="font-display text-xl font-bold text-white text-center">{member.name}</h2>
+            <p className="text-[#C5A059] uppercase tracking-[0.2em] text-[10px] font-bold mt-1">{member.role}</p>
+
+            <div className="w-full grid grid-cols-2 gap-3 border-t border-b border-[#C5A059]/30 py-3.5 px-2.5 mt-4 rounded-xl">
+              <div>
+                <p className="text-[7px] uppercase tracking-[0.1em] text-[#C5A059]/60 mb-0.5">Iniciação</p>
+                <p className="text-xs text-white font-bold">{member.initiationDate}</p>
               </div>
-            )}
+              <div>
+                <p className="text-[7px] uppercase tracking-[0.1em] text-[#C5A059]/60 mb-0.5">CIM Número</p>
+                <p className="text-xs text-white font-bold">{member.cim}</p>
+              </div>
+              {member.office && (
+                <div className="col-span-2 border-t border-[#C5A059]/15 pt-2">
+                  <p className="text-[7px] uppercase tracking-[0.1em] text-[#C5A059]/60 mb-0.5">Cargo na Loja</p>
+                  <p className="text-xs text-[#C5A059] font-bold">{member.office}</p>
+                </div>
+              )}
+            </div>
           </div>
-        </div>
 
-        <div className="flex justify-between items-end border-t border-[#C5A059]/20 pt-3">
-          <div>
-            <p className="uppercase tracking-[0.15em] text-[#C5A059] font-bold text-[8px]">G.·. A.·. D.·. U.·.</p>
-            <p className="mt-0.5 text-[7px] text-white/60">Filiada ao SOSEB</p>
+          <div className="flex justify-between items-end border-t border-[#C5A059]/20 pt-3">
+            <div>
+              <p className="uppercase tracking-[0.15em] text-[#C5A059] font-bold text-[8px]">G.·. A.·. D.·. U.·.</p>
+              <p className="mt-0.5 text-[7px] text-white/60">Filiada ao SOSEB</p>
+            </div>
+            <img src={logoSosebUrl} alt="SOSEB" className="h-8 w-8 object-contain opacity-80" />
           </div>
-          <img src={logoSosebUrl} alt="SOSEB" className="h-8 w-8 object-contain opacity-80" />
         </div>
       </div>
     );
   }
 
-  // "digital" mode — flip card
+  /* ───────────────────────────────────────────
+     DIGITAL MODE — vertical flip card
+  ─────────────────────────────────────────── */
   return (
     <div className="flex flex-col items-center">
       <div
@@ -138,14 +252,11 @@ export function MembershipCard({ member, viewMode = "digital" }: MembershipCardP
       >
         <div
           className="relative w-full h-full transition-all duration-700"
-          style={{
-            transformStyle: "preserve-3d",
-            transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)",
-          }}
+          style={{ transformStyle: "preserve-3d", transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" }}
         >
           {/* FRONT */}
           <div
-            className="absolute inset-0 w-full h-full rounded-2xl p-5 bg-gradient-to-b from-[#0A0D14] via-[#0F1520] to-[#0A0D14] border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.2)] flex flex-col justify-between overflow-hidden"
+            className="absolute inset-0 rounded-2xl p-5 bg-gradient-to-b from-[#0A0D14] via-[#0F1520] to-[#0A0D14] border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.2)] flex flex-col justify-between overflow-hidden"
             style={{ backfaceVisibility: "hidden" }}
           >
             <div className="absolute inset-0 opacity-[0.04] flex items-center justify-center pointer-events-none">
@@ -154,17 +265,15 @@ export function MembershipCard({ member, viewMode = "digital" }: MembershipCardP
 
             <div className="relative z-10 flex items-center justify-between border-b border-[#C5A059]/40 pb-2.5">
               <div className="flex items-center gap-2.5">
-                <img src={logoUrl} alt="GLEBRA" className="h-9 w-9 drop-shadow-[0_0_4px_rgba(197,160,89,0.5)]" />
+                <img src={logoUrl} alt="GLEBRA" className="h-9 w-9 drop-shadow-[0_0_6px_rgba(197,160,89,0.5)]" />
                 <div>
                   <h2 className="font-display text-xs font-bold text-white leading-tight">GLEBRA</h2>
                   <p className="text-[7px] uppercase tracking-[0.05em] text-[#C5A059]/90">Maçonaria Egípcia</p>
                 </div>
               </div>
-              <div>
-                <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-emerald-900/30 text-emerald-400 border border-emerald-700/30 tracking-wider uppercase">
-                  Membro Regular
-                </span>
-              </div>
+              <span className="px-2 py-0.5 rounded text-[8px] font-bold bg-emerald-900/30 text-emerald-400 border border-emerald-700/30 tracking-wider uppercase">
+                Membro Regular
+              </span>
             </div>
 
             <div className="relative z-10 flex flex-col items-center my-auto">
@@ -223,7 +332,7 @@ export function MembershipCard({ member, viewMode = "digital" }: MembershipCardP
 
           {/* BACK */}
           <div
-            className="absolute inset-0 w-full h-full rounded-2xl p-5 bg-gradient-to-b from-[#0A0D14] via-[#0F1520] to-[#0A0D14] border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.2)] flex flex-col justify-between overflow-hidden"
+            className="absolute inset-0 rounded-2xl p-5 bg-gradient-to-b from-[#0A0D14] via-[#0F1520] to-[#0A0D14] border-2 border-[#C5A059] shadow-[0_0_30px_rgba(197,160,89,0.2)] flex flex-col justify-between overflow-hidden"
             style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
           >
             <div className="absolute inset-0 opacity-[0.04] flex items-center justify-center pointer-events-none">
@@ -231,7 +340,7 @@ export function MembershipCard({ member, viewMode = "digital" }: MembershipCardP
             </div>
 
             <div className="relative z-10 flex items-center gap-2.5 border-b border-[#C5A059]/40 pb-2.5">
-              <img src={logoUrl} alt="GLEBRA" className="h-9 w-9 drop-shadow-[0_0_4px_rgba(197,160,89,0.5)]" />
+              <img src={logoUrl} alt="GLEBRA" className="h-9 w-9 drop-shadow-[0_0_6px_rgba(197,160,89,0.5)]" />
               <div>
                 <h2 className="font-display text-xs font-bold text-white leading-tight">GLEBRA</h2>
                 <p className="text-[7px] uppercase tracking-[0.05em] text-[#C5A059]/90 font-bold">Validação Cadastral</p>
