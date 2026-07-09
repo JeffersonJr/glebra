@@ -66,6 +66,7 @@ function cleanName(name: string) {
 function ThumbnailOrFallback({ file, size = "card" }: { file: DrivePdf; size?: "card" | "list" }) {
   const fmt = getFormat(file.name);
   const isCard = size === "card";
+  const [imgError, setImgError] = useState(false);
 
   const fallback = (
     <div
@@ -79,25 +80,17 @@ function ThumbnailOrFallback({ file, size = "card" }: { file: DrivePdf; size?: "
     </div>
   );
 
-  // Google Drive thumbnail — only available for files with thumbnailLink
-  if (file.thumbnailLink) {
+  // Google Drive thumbnail — only available for files with thumbnailLink and if it hasn't errored
+  if (file.thumbnailLink && !imgError) {
     const thumb = file.thumbnailLink.replace(/=s\d+/, "=s400");
     return (
-      <>
-        <img
-          src={thumb}
-          alt={file.name}
-          className={`object-cover w-full h-full`}
-          loading="lazy"
-          onError={(e) => {
-            (e.currentTarget as HTMLImageElement).style.display = "none";
-            (e.currentTarget.nextElementSibling as HTMLElement | null)?.style.removeProperty("display");
-          }}
-        />
-        <div style={{ display: "none" }} className="w-full h-full">
-          {fallback}
-        </div>
-      </>
+      <img
+        src={thumb}
+        alt={file.name}
+        className={`object-cover w-full h-full`}
+        loading="lazy"
+        onError={() => setImgError(true)}
+      />
     );
   }
 
