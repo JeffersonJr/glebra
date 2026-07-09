@@ -67,25 +67,7 @@ function ThumbnailOrFallback({ file, size = "card" }: { file: DrivePdf; size?: "
   const fmt = getFormat(file.name);
   const isCard = size === "card";
 
-  // Google Drive thumbnail — only available for files with thumbnailLink
-  if (file.thumbnailLink) {
-    const thumb = file.thumbnailLink.replace(/=s\d+/, "=s400");
-    return (
-      <img
-        src={thumb}
-        alt={file.name}
-        className={`object-cover w-full h-full`}
-        loading="lazy"
-        onError={(e) => {
-          (e.currentTarget as HTMLImageElement).style.display = "none";
-          (e.currentTarget.nextSibling as HTMLElement | null)?.removeAttribute("style");
-        }}
-      />
-    );
-  }
-
-  // Fallback: stylised placeholder
-  return (
+  const fallback = (
     <div
       className="w-full h-full flex flex-col items-center justify-center gap-1"
       style={{ background: `${fmt.color}15` }}
@@ -96,6 +78,31 @@ function ThumbnailOrFallback({ file, size = "card" }: { file: DrivePdf; size?: "
       </span>
     </div>
   );
+
+  // Google Drive thumbnail — only available for files with thumbnailLink
+  if (file.thumbnailLink) {
+    const thumb = file.thumbnailLink.replace(/=s\d+/, "=s400");
+    return (
+      <>
+        <img
+          src={thumb}
+          alt={file.name}
+          className={`object-cover w-full h-full`}
+          loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).style.display = "none";
+            (e.currentTarget.nextElementSibling as HTMLElement | null)?.style.removeProperty("display");
+          }}
+        />
+        <div style={{ display: "none" }} className="w-full h-full">
+          {fallback}
+        </div>
+      </>
+    );
+  }
+
+  // Fallback: stylised placeholder
+  return fallback;
 }
 
 function FormatBadge({ name }: { name: string }) {
