@@ -63,40 +63,7 @@ function cleanName(name: string) {
   return name.replace(/\.(pdf|epub|mobi|docx|doc|txt)$/i, "");
 }
 
-function ThumbnailOrFallback({ file, size = "card" }: { file: DrivePdf; size?: "card" | "list" }) {
-  const fmt = getFormat(file.name);
-  const isCard = size === "card";
-  const [imgError, setImgError] = useState(false);
 
-  const fallback = (
-    <div
-      className="w-full h-full flex flex-col items-center justify-center gap-1"
-      style={{ background: `${fmt.color}15` }}
-    >
-      <FormatIcon name={file.name} size={isCard ? 28 : 20} />
-      <span className="text-[9px] font-bold uppercase tracking-widest" style={{ color: fmt.color }}>
-        {fmt.label}
-      </span>
-    </div>
-  );
-
-  // Google Drive thumbnail — only available for files with thumbnailLink and if it hasn't errored
-  if (file.thumbnailLink && !imgError) {
-    const thumb = file.thumbnailLink.replace(/=s\d+/, "=s400");
-    return (
-      <img
-        src={thumb}
-        alt={file.name}
-        className={`object-cover w-full h-full`}
-        loading="lazy"
-        onError={() => setImgError(true)}
-      />
-    );
-  }
-
-  // Fallback: stylised placeholder
-  return fallback;
-}
 
 function FormatBadge({ name }: { name: string }) {
   const fmt = getFormat(name);
@@ -175,72 +142,102 @@ function PdfLibrary() {
         <p className="text-center text-muted-foreground italic">Nenhuma obra encontrada.</p>
       ) : viewMode === "card" ? (
         /* CARD GRID */
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {files.map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setSelected(f)}
-              className="group card-mystic rounded-xl text-left hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
-            >
-              {/* Thumbnail */}
-              <div className="relative w-full aspect-[3/4] bg-surface overflow-hidden flex items-center justify-center">
-                <ThumbnailOrFallback file={f} size="card" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent" />
-                <div className="absolute bottom-2 left-2">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+          {files.map((f) => {
+            const fmt = getFormat(f.name);
+            return (
+              <button
+                key={f.id}
+                onClick={() => setSelected(f)}
+                className="group card-mystic rounded-2xl p-6 text-left hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 flex flex-col relative overflow-hidden"
+              >
+                {/* Subtle gradient background based on format color */}
+                <div 
+                  className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500"
+                  style={{ backgroundColor: fmt.color }}
+                />
+
+                <div className="flex justify-between items-start mb-4 relative z-10">
+                  <div 
+                    className="w-10 h-10 rounded-xl flex items-center justify-center border transition-colors duration-300"
+                    style={{ 
+                      backgroundColor: `${fmt.color}10`,
+                      borderColor: `${fmt.color}30`,
+                      color: fmt.color 
+                    }}
+                  >
+                    <FormatIcon name={f.name} size={20} />
+                  </div>
                   <FormatBadge name={f.name} />
                 </div>
-              </div>
 
-              {/* Info */}
-              <div className="p-4 flex flex-col gap-1 flex-1">
-                <h3 className="font-display text-sm text-foreground leading-snug group-hover:text-gold transition-colors line-clamp-3">
-                  {cleanName(f.name)}
-                </h3>
-                {f.modifiedTime && (
-                  <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground mt-auto pt-2">
-                    {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
-                  </p>
-                )}
-                <div className="text-[10px] uppercase tracking-[0.25em] text-gold/70 group-hover:text-gold transition-colors mt-1">
-                  Abrir obra →
+                <div className="flex flex-col flex-1 relative z-10">
+                  <h3 className="font-display text-[15px] text-foreground leading-snug group-hover:text-gold transition-colors line-clamp-3 mb-4">
+                    {cleanName(f.name)}
+                  </h3>
+                  
+                  <div className="mt-auto flex items-end justify-between">
+                    {f.modifiedTime ? (
+                      <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                        {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                      </p>
+                    ) : <div />}
+                    
+                    <div className="w-8 h-8 rounded-full border border-border-gold/30 flex items-center justify-center text-gold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M5 12h14"></path>
+                        <path d="m12 5 7 7-7 7"></path>
+                      </svg>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            );
+          })}
         </div>
       ) : (
         /* LIST VIEW */
         <div className="flex flex-col gap-2">
-          {files.map((f) => (
-            <button
-              key={f.id}
-              onClick={() => setSelected(f)}
-              className="group card-mystic rounded-xl text-left hover:border-gold/60 transition-all duration-200 flex items-center gap-4 p-4"
-            >
-              {/* Mini thumbnail */}
-              <div className="w-12 h-16 rounded-md overflow-hidden shrink-0 border border-border-gold/30 bg-surface flex items-center justify-center">
-                <ThumbnailOrFallback file={f} size="list" />
-              </div>
-
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1 flex-wrap">
-                  <FormatBadge name={f.name} />
-                  {f.modifiedTime && (
-                    <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                      {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
-                    </span>
-                  )}
+          {files.map((f) => {
+            const fmt = getFormat(f.name);
+            return (
+              <button
+                key={f.id}
+                onClick={() => setSelected(f)}
+                className="group card-mystic rounded-xl text-left hover:border-gold/60 transition-all duration-200 flex items-center gap-4 p-4"
+              >
+                {/* Format Icon instead of thumbnail */}
+                <div 
+                  className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center border transition-colors"
+                  style={{ 
+                    backgroundColor: `${fmt.color}10`,
+                    borderColor: `${fmt.color}30`,
+                    color: fmt.color 
+                  }}
+                >
+                  <FormatIcon name={f.name} size={24} />
                 </div>
-                <h3 className="font-display text-base text-foreground group-hover:text-gold transition-colors truncate">
-                  {cleanName(f.name)}
-                </h3>
-              </div>
 
-              <div className="text-[10px] uppercase tracking-[0.25em] text-gold/70 group-hover:text-gold transition-colors shrink-0 hidden sm:block">
-                Abrir →
-              </div>
-            </button>
-          ))}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <FormatBadge name={f.name} />
+                    {f.modifiedTime && (
+                      <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                        {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="font-display text-[15px] text-foreground group-hover:text-gold transition-colors truncate">
+                    {cleanName(f.name)}
+                  </h3>
+                </div>
+
+                <div className="text-[10px] uppercase tracking-[0.25em] text-gold/70 group-hover:text-gold transition-colors shrink-0 hidden sm:block">
+                  Abrir →
+                </div>
+              </button>
+            );
+          })}
         </div>
       )}
 
@@ -284,14 +281,18 @@ function PdfViewer({ file, onClose }: { file: DrivePdf; onClose: () => void }) {
 
 function LoadingGrid() {
   return (
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+    <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
       {Array.from({ length: 8 }).map((_, i) => (
-        <div key={i} className="card-mystic rounded-xl overflow-hidden animate-pulse opacity-60">
-          <div className="w-full aspect-[3/4] bg-surface/60" />
-          <div className="p-4 space-y-2">
-            <div className="h-3 bg-surface/60 rounded w-3/4" />
-            <div className="h-3 bg-surface/60 rounded w-1/2" />
+        <div key={i} className="card-mystic rounded-2xl p-6 flex flex-col gap-4 animate-pulse opacity-60">
+          <div className="flex justify-between items-start">
+            <div className="w-10 h-10 rounded-xl bg-surface/80" />
+            <div className="w-16 h-4 rounded bg-surface/80" />
           </div>
+          <div className="space-y-2 mt-2">
+            <div className="h-4 bg-surface/80 rounded w-full" />
+            <div className="h-4 bg-surface/80 rounded w-2/3" />
+          </div>
+          <div className="mt-6 h-3 bg-surface/80 rounded w-1/3" />
         </div>
       ))}
     </div>
