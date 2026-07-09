@@ -1,9 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import logoAsset from "@/assets/logo-glebra.webp";
+import logoSoseb from "@/assets/logo-soseb.png";
 import heroCosmos from "@/assets/hero-cosmos.jpg";
 import templeImg from "@/assets/temple.jpg";
 import { MasonsJoin } from "@/components/masons-join";
+import { ParceirosCarousel } from "@/components/parceiros-carousel";
+import { FAQ } from "@/components/faq";
+import { ExitIntentModal } from "@/components/ExitIntentModal";
 
 export const Route = createFileRoute("/")({
   component: HomePage,
@@ -14,7 +18,8 @@ const NAV = [
   { label: "Missão", href: "#missao" },
   { label: "Graus", href: "#graus" },
   { label: "Biblioteca", href: "/biblioteca" },
-  { label: "Contato", href: "#contato" },
+  { label: "Membros", href: "/membros" },
+  { label: "FAQ", href: "#faq" },
 ];
 
 const PRINCIPIOS = [
@@ -51,10 +56,17 @@ const GRAUS = [
   },
 ];
 
-const LINHAGENS = [
-  "Giuseppe Garibaldi", "John Yarker", "Theodore Reuss", "Gerard Encausse",
-  "Jean Bricaud", "Constant Chevillon", "Charles-Henry Dupont", "Robert Ambelain",
-  "Michael Bertiaux", "Tau Allen Greenfield", "Asuar Khepera", "Shem Kepher Sedjem",
+const LINHAGEM_1 = [
+  "Garibaldi", "Yarker", "Reuss", "Bricaud", "Chevillon", "Dupont",
+  "Ambelain", "Brunelli", "Ripel", "López de Rojas", "Labbé",
+  "Arteaga", "Rugerio", "Parra (México)", "Shem Kepher Sedjem"
+];
+
+const LINHAGEM_2 = [
+  "Giuseppe Garibaldi", "John Yarker", "Theodore Reuss", "Gerard Encauss",
+  "Hector", "Francois Jean", "Maine", "Michael Bertiaux",
+  "Tau Allen Greenfield", "Asuar Khepera (Naküm Bey)", "Amzi Muhammad",
+  "Shem Kepher Sedjem"
 ];
 
 function HomePage() {
@@ -88,7 +100,7 @@ function HomePage() {
             <div className="hidden sm:block leading-tight">
               <div className="font-display text-lg text-gradient-gold">GLEBRA</div>
               <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                Grande Loja Egípcia Brasileira
+                Memphis &amp; Misraim
               </div>
             </div>
           </Link>
@@ -164,7 +176,7 @@ function HomePage() {
 
           <h1 className="text-5xl md:text-7xl lg:text-8xl leading-[1.02] mb-8">
             <span className="block text-foreground/95">Grande Loja</span>
-            <span className="block text-gradient-gold italic font-light">Egípcia Brasileira</span>
+            <span className="block text-gradient-gold italic font-light">Egípcia de Memphis e Misraim</span>
           </h1>
 
           <p className="max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed mb-12 font-light">
@@ -222,6 +234,15 @@ function HomePage() {
                 e todas as formas de preconceito. Proclamamos a liberdade de todos os Seres
                 Humanos e de todos os povos.
               </p>
+            </div>
+
+            <div className="flex items-center gap-4 p-4 bg-surface/50 border border-border-gold/30 rounded-xl hover:border-border-gold hover:bg-surface/80 transition-all group mt-8">
+              <img src={logoSoseb} alt="Logo SOSEB" className="h-16 w-16 object-contain transition-transform group-hover:scale-105" />
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.2em] text-gold/70 font-bold mb-1">Filiada ao</p>
+                <h3 className="font-display text-base text-foreground font-semibold leading-tight group-hover:text-gold transition-colors">Soberano Santuário Egípcio do Brasil - SOSEB</h3>
+                <p className="text-xs text-muted-foreground mt-0.5">Potência Maçônica Regular e Legítima</p>
+              </div>
             </div>
           </div>
 
@@ -389,9 +410,12 @@ function HomePage() {
         </div>
       </section>
 
+      {/* PARCEIROS */}
+      <ParceirosCarousel />
+
       {/* LINHAGENS */}
       <section id="linhagens" className="relative py-32 px-6 border-t border-border-gold/20">
-        <div className="mx-auto max-w-6xl">
+        <div className="mx-auto max-w-5xl">
           <div className="text-center mb-16">
             <p className="divider-gold justify-center mb-6">
               <span className="divider-gold-line" />
@@ -403,24 +427,51 @@ function HomePage() {
             </h2>
           </div>
 
-          <div className="relative">
-            <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-gold/40 to-transparent" />
-            <div className="grid gap-3">
-              {LINHAGENS.map((n, i) => (
-                <div
-                  key={n}
-                  className={`flex ${i % 2 === 0 ? "justify-start pr-1/2" : "justify-end pl-1/2"}`}
-                >
-                  <div className="relative w-full md:w-1/2 md:px-8">
-                    <div className="card-mystic rounded-lg px-6 py-4 hover:border-gold/60 transition-colors">
-                      <div className="text-xs text-gold tracking-[0.3em] uppercase mb-1">
-                        {String(i + 1).padStart(2, "0")}
+          <div className="grid md:grid-cols-2 gap-16 lg:gap-24">
+            {/* Filiação 1 */}
+            <div>
+              <h3 className="font-display text-2xl text-gradient-gold mb-10 text-center md:text-left">
+                Filiação 1
+              </h3>
+              <div className="relative pl-6">
+                <div className="absolute left-[11px] top-4 bottom-4 w-px bg-gradient-to-b from-gold/10 via-gold/40 to-gold/10" />
+                <div className="space-y-4">
+                  {LINHAGEM_1.map((n, i) => (
+                    <div key={i} className="relative group">
+                      <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-gold bg-background group-hover:bg-gold transition-colors z-10" />
+                      <div className="card-mystic rounded-lg px-6 py-4 hover:border-gold/60 transition-all duration-300 group-hover:translate-x-1">
+                        <div className="text-[9px] text-gold/60 tracking-[0.2em] uppercase mb-1">
+                          Sucessão {String(i + 1).padStart(2, "0")}
+                        </div>
+                        <div className="font-display text-base text-foreground/90">{n}</div>
                       </div>
-                      <div className="font-display text-lg">{n}</div>
                     </div>
-                  </div>
+                  ))}
                 </div>
-              ))}
+              </div>
+            </div>
+
+            {/* Filiação 2 */}
+            <div>
+              <h3 className="font-display text-2xl text-gradient-gold mb-10 text-center md:text-left">
+                Filiação 2
+              </h3>
+              <div className="relative pl-6">
+                <div className="absolute left-[11px] top-4 bottom-4 w-px bg-gradient-to-b from-gold/10 via-gold/40 to-gold/10" />
+                <div className="space-y-4">
+                  {LINHAGEM_2.map((n, i) => (
+                    <div key={i} className="relative group">
+                      <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-2 h-2 rounded-full border border-gold bg-background group-hover:bg-gold transition-colors z-10" />
+                      <div className="card-mystic rounded-lg px-6 py-4 hover:border-gold/60 transition-all duration-300 group-hover:translate-x-1">
+                        <div className="text-[9px] text-gold/60 tracking-[0.2em] uppercase mb-1">
+                          Sucessão {String(i + 1).padStart(2, "0")}
+                        </div>
+                        <div className="font-display text-base text-foreground/90">{n}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -456,26 +507,93 @@ function HomePage() {
       {/* MAÇOM REGULAR */}
       <MasonsJoin />
 
+      {/* FAQ */}
+      <FAQ />
+
       {/* FOOTER */}
-      <footer className="border-t border-border-gold/20 py-12 px-6">
-        <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <img src={logoAsset} alt="GLEBRA" width={40} height={40} className="h-10 w-10" />
-            <div className="leading-tight">
-              <div className="font-display text-gradient-gold">GLEBRA</div>
-              <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
-                Memphis & Misraim
+      <footer className="bg-surface border-t border-border-gold/20">
+        <div className="mx-auto max-w-7xl px-6 py-16">
+          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-10">
+            {/* Coluna 1: Brand */}
+            <div className="space-y-4">
+              <div className="flex items-center gap-3">
+                <img src={logoAsset} alt="GLEBRA" className="h-12 w-12" />
+                <div>
+                  <div className="text-[10px] uppercase tracking-[0.25em] text-gold">G.L.E.B.R.A.</div>
+                  <div className="font-display text-foreground font-semibold">Grande Loja Egípcia</div>
+                </div>
+              </div>
+              <p className="text-xs leading-relaxed text-muted-foreground">
+                Instituição iniciática hermética de Memphis e Misraim, Filiada ao Soberano Santuário Egípcio do Brasil — SOSEB.
+              </p>
+              <a
+                href="https://soseb.org.br/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-3 pt-4 border-t border-border-gold/20 hover:opacity-90 transition-opacity"
+              >
+                <img src={logoSoseb} alt="SOSEB" className="h-10 w-10 object-contain" />
+                <div>
+                  <p className="text-[8px] uppercase tracking-wider text-gold font-bold">Filiada ao</p>
+                  <p className="text-[10px] text-foreground/80 font-medium leading-tight">SOSEB — Soberano Santuário Egípcio do Brasil</p>
+                </div>
+              </a>
+            </div>
+
+            {/* Coluna 2: Navegação */}
+            <div>
+              <h2 className="text-gold font-display text-base font-semibold mb-4">Navegação</h2>
+              <ul className="space-y-2 text-xs text-muted-foreground">
+                <li><a href="/#quem-somos" className="hover:text-gold transition-colors">Quem Somos</a></li>
+                <li><a href="/#missao" className="hover:text-gold transition-colors">Nossa Missão</a></li>
+                <li><a href="/#graus" className="hover:text-gold transition-colors">Graus Maçônicos</a></li>
+                <li><a href="/#linhagens" className="hover:text-gold transition-colors">Nossas Linhagens</a></li>
+                <li><a href="/#faq" className="hover:text-gold transition-colors">Perguntas Frequentes</a></li>
+              </ul>
+            </div>
+
+            {/* Coluna 3: Portais */}
+            <div>
+              <h2 className="text-gold font-display text-base font-semibold mb-4">Portais</h2>
+              <ul className="space-y-2 text-xs text-muted-foreground">
+                <li><Link to="/biblioteca" className="hover:text-gold transition-colors">Biblioteca de Alexandria</Link></li>
+                <li><Link to="/membros" className="hover:text-gold transition-colors">Portal de Membros</Link></li>
+                <li><Link to="/membros/carteirinha/validar" search={{ id: undefined }} className="hover:text-gold transition-colors">Validação de Carteirinha</Link></li>
+                <li><Link to="/triagem" className="hover:text-gold transition-colors font-medium text-gold/90">Quero ser um Maçom</Link></li>
+              </ul>
+            </div>
+
+            {/* Coluna 4: Contato */}
+            <div className="space-y-4">
+              <div>
+                <h2 className="text-gold font-display text-base font-semibold mb-2">Contato</h2>
+                <a href="https://wa.me/5513988766605" target="_blank" rel="noopener noreferrer" className="text-xs text-gold hover:underline block">
+                  +55 13 98876-6605
+                </a>
+              </div>
+              <div className="pt-2 border-t border-border-gold/20">
+                <h2 className="text-gold font-display text-xs uppercase tracking-widest mb-1.5">Princípios</h2>
+                <p className="text-[10px] uppercase tracking-[0.2em] leading-relaxed text-muted-foreground">
+                  Liberdade · Igualdade · Fraternidade
+                </p>
               </div>
             </div>
           </div>
-          <p className="text-xs text-muted-foreground tracking-[0.2em] uppercase">
-            Liberdade · Igualdade · Fraternidade
-          </p>
-          <p className="text-xs text-muted-foreground">
-            © {new Date().getFullYear()} Grande Loja Egípcia Brasileira
-          </p>
+
+          <div className="border-t border-border-gold/20 mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
+            <p>© {new Date().getFullYear()} GLEBRA — Grande Loja Egípcia de Memphis e Misraim</p>
+            <p>
+              Powered by{" "}
+              <a href="https://evolves.site" target="_blank" rel="noopener noreferrer" className="text-gold hover:text-gold/80 transition-colors font-medium">
+                evolves tecnologia
+              </a>
+            </p>
+          </div>
         </div>
       </footer>
+
+      {/* EXIT INTENT MODAL */}
+      <ExitIntentModal />
     </div>
   );
 }

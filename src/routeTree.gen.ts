@@ -12,6 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TriagemRouteImport } from './routes/triagem'
 import { Route as BibliotecaRouteImport } from './routes/biblioteca'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MembrosIndexRouteImport } from './routes/membros/index'
+import { Route as MembrosCarteirinhaValidarRouteImport } from './routes/membros/carteirinha/validar'
+import { Route as MembrosCarteirinhaNovaRouteImport } from './routes/membros/carteirinha/nova'
+import { Route as MembrosCarteirinhaIdRouteImport } from './routes/membros/carteirinha/$id'
 
 const TriagemRoute = TriagemRouteImport.update({
   id: '/triagem',
@@ -28,35 +32,94 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MembrosIndexRoute = MembrosIndexRouteImport.update({
+  id: '/membros/',
+  path: '/membros/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembrosCarteirinhaValidarRoute =
+  MembrosCarteirinhaValidarRouteImport.update({
+    id: '/membros/carteirinha/validar',
+    path: '/membros/carteirinha/validar',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const MembrosCarteirinhaNovaRoute = MembrosCarteirinhaNovaRouteImport.update({
+  id: '/membros/carteirinha/nova',
+  path: '/membros/carteirinha/nova',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MembrosCarteirinhaIdRoute = MembrosCarteirinhaIdRouteImport.update({
+  id: '/membros/carteirinha/$id',
+  path: '/membros/carteirinha/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/biblioteca': typeof BibliotecaRoute
   '/triagem': typeof TriagemRoute
+  '/membros/': typeof MembrosIndexRoute
+  '/membros/carteirinha/$id': typeof MembrosCarteirinhaIdRoute
+  '/membros/carteirinha/nova': typeof MembrosCarteirinhaNovaRoute
+  '/membros/carteirinha/validar': typeof MembrosCarteirinhaValidarRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/biblioteca': typeof BibliotecaRoute
   '/triagem': typeof TriagemRoute
+  '/membros': typeof MembrosIndexRoute
+  '/membros/carteirinha/$id': typeof MembrosCarteirinhaIdRoute
+  '/membros/carteirinha/nova': typeof MembrosCarteirinhaNovaRoute
+  '/membros/carteirinha/validar': typeof MembrosCarteirinhaValidarRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/biblioteca': typeof BibliotecaRoute
   '/triagem': typeof TriagemRoute
+  '/membros/': typeof MembrosIndexRoute
+  '/membros/carteirinha/$id': typeof MembrosCarteirinhaIdRoute
+  '/membros/carteirinha/nova': typeof MembrosCarteirinhaNovaRoute
+  '/membros/carteirinha/validar': typeof MembrosCarteirinhaValidarRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/biblioteca' | '/triagem'
+  fullPaths:
+    | '/'
+    | '/biblioteca'
+    | '/triagem'
+    | '/membros/'
+    | '/membros/carteirinha/$id'
+    | '/membros/carteirinha/nova'
+    | '/membros/carteirinha/validar'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/biblioteca' | '/triagem'
-  id: '__root__' | '/' | '/biblioteca' | '/triagem'
+  to:
+    | '/'
+    | '/biblioteca'
+    | '/triagem'
+    | '/membros'
+    | '/membros/carteirinha/$id'
+    | '/membros/carteirinha/nova'
+    | '/membros/carteirinha/validar'
+  id:
+    | '__root__'
+    | '/'
+    | '/biblioteca'
+    | '/triagem'
+    | '/membros/'
+    | '/membros/carteirinha/$id'
+    | '/membros/carteirinha/nova'
+    | '/membros/carteirinha/validar'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BibliotecaRoute: typeof BibliotecaRoute
   TriagemRoute: typeof TriagemRoute
+  MembrosIndexRoute: typeof MembrosIndexRoute
+  MembrosCarteirinhaIdRoute: typeof MembrosCarteirinhaIdRoute
+  MembrosCarteirinhaNovaRoute: typeof MembrosCarteirinhaNovaRoute
+  MembrosCarteirinhaValidarRoute: typeof MembrosCarteirinhaValidarRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +145,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/membros/': {
+      id: '/membros/'
+      path: '/membros'
+      fullPath: '/membros/'
+      preLoaderRoute: typeof MembrosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membros/carteirinha/validar': {
+      id: '/membros/carteirinha/validar'
+      path: '/membros/carteirinha/validar'
+      fullPath: '/membros/carteirinha/validar'
+      preLoaderRoute: typeof MembrosCarteirinhaValidarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membros/carteirinha/nova': {
+      id: '/membros/carteirinha/nova'
+      path: '/membros/carteirinha/nova'
+      fullPath: '/membros/carteirinha/nova'
+      preLoaderRoute: typeof MembrosCarteirinhaNovaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/membros/carteirinha/$id': {
+      id: '/membros/carteirinha/$id'
+      path: '/membros/carteirinha/$id'
+      fullPath: '/membros/carteirinha/$id'
+      preLoaderRoute: typeof MembrosCarteirinhaIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +180,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BibliotecaRoute: BibliotecaRoute,
   TriagemRoute: TriagemRoute,
+  MembrosIndexRoute: MembrosIndexRoute,
+  MembrosCarteirinhaIdRoute: MembrosCarteirinhaIdRoute,
+  MembrosCarteirinhaNovaRoute: MembrosCarteirinhaNovaRoute,
+  MembrosCarteirinhaValidarRoute: MembrosCarteirinhaValidarRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
