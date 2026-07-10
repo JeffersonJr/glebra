@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ShieldCheck, ShieldAlert, Search, ArrowLeft } from "lucide-react";
 import logoUrl from "@/assets/logo-glebra.webp";
+import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/membros/carteirinha/validar")({
   validateSearch: (search: Record<string, unknown>) => ({
@@ -47,16 +48,7 @@ function ValidarCarteirinha() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      <header className="fixed top-0 left-0 right-0 z-50 border-b border-border-gold/20 bg-background/90 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3">
-            <img src={logoUrl} alt="GLEBRA" className="h-9 w-9" />
-            <div className="leading-tight">
-              <div className="font-display text-gradient-gold text-sm">GLEBRA</div>
-            </div>
-          </Link>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main className="flex-grow pt-24 pb-16 px-6">
         <div className="mx-auto max-w-2xl">

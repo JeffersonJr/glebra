@@ -2,6 +2,7 @@ import { createFileRoute, Link, useParams } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Member, getMemberById } from "@/lib/members-db";
 import { MembershipCard } from "@/components/members/MembershipCard";
+import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ShieldCheck, Printer, Share2 } from "lucide-react";
 import logoUrl from "@/assets/logo-glebra.webp";
@@ -60,23 +61,12 @@ function ViewMembershipCard() {
     }
   };
 
-  const HeaderBar = () => (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border-gold/20 bg-background/90 backdrop-blur-md print:hidden">
-      <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-3">
-          <img src={logoUrl} alt="GLEBRA" className="h-9 w-9" />
-          <div className="leading-tight">
-            <div className="font-display text-gradient-gold text-sm">GLEBRA</div>
-          </div>
-        </Link>
-      </div>
-    </header>
-  );
+
 
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
-        <HeaderBar />
+        <SiteHeader />
         <main className="flex-grow flex items-center justify-center pt-24">
           <div className="text-center">
             <div className="w-12 h-12 rounded-full border-4 border-gold border-t-transparent animate-spin mx-auto mb-4" />
@@ -90,7 +80,7 @@ function ViewMembershipCard() {
   if (!member) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
-        <HeaderBar />
+        <SiteHeader />
         <main className="flex-grow flex items-center justify-center pt-24 px-6">
           <div className="text-center max-w-md">
             <h1 className="font-display text-4xl text-gradient-gold font-bold mb-4">404</h1>
@@ -108,7 +98,7 @@ function ViewMembershipCard() {
   return (
     <>
       <div className="min-h-screen bg-background flex flex-col print:bg-white print:min-h-0">
-        <HeaderBar />
+        <SiteHeader />
 
         <main className="flex-grow pt-24 pb-16 px-6 print:p-0 print:pt-4">
           <div className="mx-auto max-w-4xl flex flex-col items-center">

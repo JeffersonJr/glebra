@@ -4,6 +4,7 @@ import { Suspense, useState } from "react";
 import { listDrivePdfs, type DrivePdf } from "@/lib/drive.functions";
 import logoAsset from "@/assets/logo-glebra.webp";
 import { LayoutGrid, List, FileText, BookOpen, FileArchive, File } from "lucide-react";
+import { SiteHeader } from "@/components/site-header";
 
 const pdfsQuery = queryOptions({
   queryKey: ["drive-pdfs"],
@@ -300,59 +301,9 @@ function LoadingGrid() {
 }
 
 function Shell({ children }: { children: React.ReactNode }) {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const navLinks = [
-    { label: "Início", href: "/" },
-    { label: "Quem Somos", href: "/#quem-somos" },
-    { label: "Membros", href: "/membros" },
-    { label: "Triagem", href: "/triagem" },
-  ];
-
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border-gold/20 sticky top-0 z-50 bg-background/90 backdrop-blur-md">
-        <div className="mx-auto max-w-7xl px-6 py-4 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
-            <img src={logoAsset} alt="GLEBRA" width={40} height={40} className="h-10 w-10" />
-            <div className="leading-tight hidden sm:block">
-              <div className="font-display text-gradient-gold">GLEBRA</div>
-              <div className="text-[10px] uppercase tracking-[0.25em] text-muted-foreground">Grande Loja Egípcia de Memphis e Misraim</div>
-            </div>
-          </Link>
-
-          <div className="flex items-center gap-4">
-            <nav className="hidden md:flex items-center gap-6">
-              {navLinks.map((n) => (
-                <a key={n.href} href={n.href} className="text-xs uppercase tracking-[0.2em] text-muted-foreground hover:text-gold transition-colors">
-                  {n.label}
-                </a>
-              ))}
-            </nav>
-
-            {/* Mobile hamburger */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden flex flex-col gap-1.5 w-8 h-8 items-center justify-center"
-              aria-label="Menu"
-            >
-              <span className={`block w-5 h-0.5 bg-gold transition-transform ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-              <span className={`block w-5 h-0.5 bg-gold transition-opacity ${menuOpen ? "opacity-0" : ""}`} />
-              <span className={`block w-5 h-0.5 bg-gold transition-transform ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile menu */}
-        {menuOpen && (
-          <div className="md:hidden border-t border-border-gold/20 bg-background/95 backdrop-blur-md px-6 py-4 space-y-3">
-            {navLinks.map((n) => (
-              <a key={n.href} href={n.href} onClick={() => setMenuOpen(false)} className="block text-sm uppercase tracking-[0.2em] text-muted-foreground hover:text-gold transition-colors py-1">
-                {n.label}
-              </a>
-            ))}
-          </div>
-        )}
-      </header>
+      <SiteHeader />
 
       <section className="relative py-20 px-6 text-center border-b border-border-gold/20">
         <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ background: "var(--gradient-radial-gold)" }} />
