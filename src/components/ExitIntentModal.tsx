@@ -68,7 +68,7 @@ export function ExitIntentModal() {
               asChild
               size="lg"
               variant="outline"
-              className="h-12 px-6 gap-2 border-border-gold/30 text-foreground hover:bg-gold/5 rounded-full"
+              className="h-12 px-6 gap-2 border-border-gold/30 text-foreground hover:bg-white/10 hover:border-border-gold/60 transition-all rounded-full"
             >
               <a
                 href="https://wa.me/5513988766605?text=Ol%C3%A1%21%20Gostaria%20de%20tirar%20algumas%20d%C3%BAvidas%20sobre%20a%20GLEBRA."

@@ -87,7 +87,7 @@ function ValidarCarteirinha() {
                         Ver Carteirinha Completa
                       </Link>
                     </Button>
-                    <Button variant="outline" className="border-border-gold/30 hover:bg-gold/5 h-10 px-5 text-xs" onClick={() => { setSearched(false); setSearchId(""); }}>
+                    <Button variant="outline" className="border-border-gold/30 hover:bg-white/10 hover:border-border-gold/60 transition-all h-10 px-5 text-xs" onClick={() => { setSearched(false); setSearchId(""); }}>
                       Nova Consulta
                     </Button>
                   </div>
@@ -100,10 +100,10 @@ function ValidarCarteirinha() {
                     A credencial <strong className="text-destructive">"{searchId}"</strong> não foi localizada nos cadastros ou está inativa.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
-                    <Button variant="outline" className="border-border-gold/30 hover:bg-gold/5 h-10 px-5 text-xs" onClick={() => { setSearched(false); setSearchId(""); }}>
+                    <Button variant="outline" className="border-border-gold/30 hover:bg-white/10 hover:border-border-gold/60 transition-all h-10 px-5 text-xs" onClick={() => { setSearched(false); setSearchId(""); }}>
                       Digitar novo ID
                     </Button>
-                    <Button asChild variant="outline" className="border-border-gold/30 h-10 px-5 text-xs">
+                    <Button asChild variant="outline" className="border-border-gold/30 hover:bg-white/10 hover:border-border-gold/60 transition-all h-10 px-5 text-xs">
                       <Link to="/membros">Ver Lista de Membros</Link>
                     </Button>
                   </div>

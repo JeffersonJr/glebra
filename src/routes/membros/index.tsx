@@ -50,7 +50,7 @@ function MembersPortal() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <Button asChild variant="outline" className="border-border-gold/30 hover:bg-gold/5 h-11 px-6">
+              <Button asChild variant="outline" className="border-border-gold/30 hover:bg-white/10 hover:border-border-gold/60 transition-all h-11 px-6">
                 <Link to="/membros/carteirinha/validar" search={{ id: undefined }} className="flex items-center gap-2">
                   <ShieldCheck className="w-4 h-4 text-gold" />
                   Validar Carteirinha
@@ -127,7 +127,7 @@ function MembersPortal() {
                   </div>
 
                   <div className="flex gap-2">
-                    <Button asChild variant="outline" className="flex-grow border-gold/30 hover:bg-gold/5 h-10 text-xs font-semibold">
+                    <Button asChild variant="outline" className="flex-grow border-gold/30 hover:bg-white/10 hover:border-border-gold/60 transition-all h-10 text-xs font-semibold">
                       <Link to="/membros/carteirinha/$id" params={{ id: member.id }}>
                         <CreditCard className="w-3.5 h-3.5 mr-2 text-gold" />
                         Ver Carteirinha

@@ -142,7 +142,7 @@ function ViewMembershipCard() {
                 <Button
                   onClick={handleShare}
                   variant="outline"
-                  className="border-border-gold/30 hover:bg-gold/5 h-11 px-5 text-xs font-semibold flex-1 cursor-pointer"
+                  className="border-border-gold/30 hover:bg-white/10 hover:border-border-gold/60 transition-all h-11 px-5 text-xs font-semibold flex-1 cursor-pointer"
                 >
                   <Share2 className="w-4 h-4 mr-2" />
                   Compartilhar
