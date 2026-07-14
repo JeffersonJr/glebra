@@ -1,16 +1,19 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
-import { Suspense, useState } from "react";
-import { listDrivePdfs, type DrivePdf } from "@/lib/drive.functions";
-import logoAsset from "@/assets/logo-glebra.webp";
-import { LayoutGrid, List, FileText, BookOpen, FileArchive, File } from "lucide-react";
+import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
+import { Suspense, useState, useCallback } from "react";
+import {
+  listDrivePdfs,
+  type DrivePdf,
+  type DriveItem,
+} from "@/lib/drive.functions";
+import { LayoutGrid, List, FileText, BookOpen, FileArchive, File, Folder, FolderOpen, ChevronRight, Home } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
 
-const pdfsQuery = queryOptions({
-  queryKey: ["drive-pdfs"],
-  queryFn: () => listDrivePdfs(),
-  staleTime: 60_000,
-});
+// ─── Types ────────────────────────────────────────────────────────────────────
+
+type BreadcrumbEntry = { id: string | null; name: string };
+
+// ─── Route ────────────────────────────────────────────────────────────────────
 
 export const Route = createFileRoute("/biblioteca")({
   head: () => ({
@@ -22,7 +25,6 @@ export const Route = createFileRoute("/biblioteca")({
     ],
     links: [{ rel: "canonical", href: "/biblioteca" }],
   }),
-  loader: ({ context }) => context.queryClient.ensureQueryData(pdfsQuery),
   component: BibliotecaPage,
   errorComponent: ({ error }) => (
     <Shell>
@@ -30,6 +32,8 @@ export const Route = createFileRoute("/biblioteca")({
     </Shell>
   ),
 });
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 function BibliotecaPage() {
   return (
@@ -41,7 +45,8 @@ function BibliotecaPage() {
   );
 }
 
-// Helper: detect file format from name
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
 function getFormat(name: string): { label: string; color: string } {
   const lower = name.toLowerCase();
   if (lower.endsWith(".epub")) return { label: "EPUB", color: "#4CAF50" };
@@ -64,8 +69,6 @@ function cleanName(name: string) {
   return name.replace(/\.(pdf|epub|mobi|docx|doc|txt)$/i, "");
 }
 
-
-
 function FormatBadge({ name }: { name: string }) {
   const fmt = getFormat(name);
   return (
@@ -83,25 +86,100 @@ function FormatBadge({ name }: { name: string }) {
   );
 }
 
+// ─── Breadcrumb ───────────────────────────────────────────────────────────────
+
+function Breadcrumb({
+  trail,
+  onNavigate,
+}: {
+  trail: BreadcrumbEntry[];
+  onNavigate: (index: number) => void;
+}) {
+  if (trail.length <= 1) return null;
+  return (
+    <nav className="flex items-center gap-1 mb-8 flex-wrap" aria-label="Localização">
+      {trail.map((entry, i) => {
+        const isLast = i === trail.length - 1;
+        return (
+          <span key={i} className="flex items-center gap-1">
+            {i > 0 && <ChevronRight size={14} className="text-muted-foreground/50 shrink-0" />}
+            {isLast ? (
+              <span className="text-xs text-gold font-medium flex items-center gap-1">
+                {i === 0 ? <Home size={13} /> : <FolderOpen size={13} />}
+                {entry.name}
+              </span>
+            ) : (
+              <button
+                onClick={() => onNavigate(i)}
+                className="text-xs text-muted-foreground hover:text-gold transition-colors flex items-center gap-1"
+              >
+                {i === 0 ? <Home size={13} /> : <Folder size={13} />}
+                {entry.name}
+              </button>
+            )}
+          </span>
+        );
+      })}
+    </nav>
+  );
+}
+
+// ─── Library ──────────────────────────────────────────────────────────────────
+
 function PdfLibrary() {
-  const { data } = useSuspenseQuery(pdfsQuery);
+  const [trail, setTrail] = useState<BreadcrumbEntry[]>([
+    { id: null, name: "Início" },
+  ]);
   const [query, setQuery] = useState("");
   const [selected, setSelected] = useState<DrivePdf | null>(null);
   const [viewMode, setViewMode] = useState<"card" | "list">("card");
 
-  const files = data.files.filter((f) => f.name.toLowerCase().includes(query.toLowerCase()));
+  const currentFolderId = trail[trail.length - 1].id;
 
-  if (data.error) {
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["drive-items", currentFolderId],
+    queryFn: () => listDrivePdfs({ data: { folderId: currentFolderId ?? undefined } }),
+    staleTime: 60_000,
+  });
+
+  const navigateToFolder = useCallback(
+    (folder: { id: string; name: string }) => {
+      setTrail((prev) => [...prev, { id: folder.id, name: folder.name }]);
+      setQuery("");
+    },
+    [],
+  );
+
+  const navigateTo = useCallback((index: number) => {
+    setTrail((prev) => prev.slice(0, index + 1));
+    setQuery("");
+  }, []);
+
+  if (isLoading) return <LoadingGrid />;
+
+  if (error || data?.error) {
     return (
       <div className="card-mystic rounded-xl p-10 text-center max-w-2xl mx-auto">
         <div className="font-display text-3xl text-gradient-gold mb-3">Biblioteca em preparo</div>
-        <p className="text-sm text-muted-foreground leading-relaxed">{data.error}</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          {data?.error ?? String(error)}
+        </p>
       </div>
     );
   }
 
+  const items = (data?.items ?? []).filter((item) =>
+    item.name.toLowerCase().includes(query.toLowerCase()),
+  );
+
+  const folders = items.filter((i): i is Extract<DriveItem, { kind: "folder" }> => i.kind === "folder");
+  const files = items.filter((i): i is Extract<DriveItem, { kind: "file" }> => i.kind === "file");
+
   return (
     <>
+      {/* Breadcrumb */}
+      <Breadcrumb trail={trail} onNavigate={navigateTo} />
+
       {/* Search + View Toggle */}
       <div className="mb-10 flex flex-col sm:flex-row gap-4 items-center">
         <label className="block relative flex-1 max-w-xl w-full">
@@ -109,7 +187,7 @@ function PdfLibrary() {
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Buscar obras…"
+            placeholder="Buscar obras ou pastas…"
             className="w-full bg-surface/60 border border-border rounded-full pl-12 pr-5 py-3.5 text-foreground placeholder-muted-foreground/50 focus:outline-none focus:border-gold/70 focus:ring-1 focus:ring-gold/40 transition-colors"
           />
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gold/70">
@@ -139,113 +217,240 @@ function PdfLibrary() {
         </div>
       </div>
 
-      {files.length === 0 ? (
-        <p className="text-center text-muted-foreground italic">Nenhuma obra encontrada.</p>
+      {items.length === 0 ? (
+        <p className="text-center text-muted-foreground italic">Nenhuma obra ou pasta encontrada.</p>
       ) : viewMode === "card" ? (
-        /* CARD GRID */
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {files.map((f) => {
-            const fmt = getFormat(f.name);
-            return (
-              <button
-                key={f.id}
-                onClick={() => setSelected(f)}
-                className="group card-mystic rounded-2xl p-6 text-left hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 flex flex-col relative overflow-hidden"
-              >
-                {/* Subtle gradient background based on format color */}
-                <div 
-                  className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500"
-                  style={{ backgroundColor: fmt.color }}
-                />
-
-                <div className="flex justify-between items-start mb-4 relative z-10">
-                  <div 
-                    className="w-10 h-10 rounded-xl flex items-center justify-center border transition-colors duration-300"
-                    style={{ 
-                      backgroundColor: `${fmt.color}10`,
-                      borderColor: `${fmt.color}30`,
-                      color: fmt.color 
-                    }}
-                  >
-                    <FormatIcon name={f.name} size={20} />
-                  </div>
-                  <FormatBadge name={f.name} />
-                </div>
-
-                <div className="flex flex-col flex-1 relative z-10">
-                  <h3 className="font-display text-[15px] text-foreground leading-snug group-hover:text-gold transition-colors line-clamp-3 mb-4">
-                    {cleanName(f.name)}
-                  </h3>
-                  
-                  <div className="mt-auto flex items-end justify-between">
-                    {f.modifiedTime ? (
-                      <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                        {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
-                      </p>
-                    ) : <div />}
-                    
-                    <div className="w-8 h-8 rounded-full border border-border-gold/30 flex items-center justify-center text-gold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M5 12h14"></path>
-                        <path d="m12 5 7 7-7 7"></path>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-              </button>
-            );
-          })}
-        </div>
+        <CardView
+          folders={folders}
+          files={files}
+          onFolderClick={navigateToFolder}
+          onFileClick={(f) => setSelected(f)}
+        />
       ) : (
-        /* LIST VIEW */
-        <div className="flex flex-col gap-2">
-          {files.map((f) => {
-            const fmt = getFormat(f.name);
-            return (
-              <button
-                key={f.id}
-                onClick={() => setSelected(f)}
-                className="group card-mystic rounded-xl text-left hover:border-gold/60 transition-all duration-200 flex items-center gap-4 p-4"
-              >
-                {/* Format Icon instead of thumbnail */}
-                <div 
-                  className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center border transition-colors"
-                  style={{ 
-                    backgroundColor: `${fmt.color}10`,
-                    borderColor: `${fmt.color}30`,
-                    color: fmt.color 
-                  }}
-                >
-                  <FormatIcon name={f.name} size={24} />
-                </div>
-
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1 flex-wrap">
-                    <FormatBadge name={f.name} />
-                    {f.modifiedTime && (
-                      <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
-                        {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="font-display text-[15px] text-foreground group-hover:text-gold transition-colors truncate">
-                    {cleanName(f.name)}
-                  </h3>
-                </div>
-
-                <div className="text-[10px] uppercase tracking-[0.25em] text-gold/70 group-hover:text-gold transition-colors shrink-0 hidden sm:block">
-                  Abrir →
-                </div>
-              </button>
-            );
-          })}
-        </div>
+        <ListView
+          folders={folders}
+          files={files}
+          onFolderClick={navigateToFolder}
+          onFileClick={(f) => setSelected(f)}
+        />
       )}
 
       {selected && <PdfViewer file={selected} onClose={() => setSelected(null)} />}
     </>
   );
 }
+
+// ─── Card View ────────────────────────────────────────────────────────────────
+
+function CardView({
+  folders,
+  files,
+  onFolderClick,
+  onFileClick,
+}: {
+  folders: Extract<DriveItem, { kind: "folder" }>[];
+  files: Extract<DriveItem, { kind: "file" }>[];
+  onFolderClick: (folder: { id: string; name: string }) => void;
+  onFileClick: (file: DrivePdf) => void;
+}) {
+  return (
+    <div className="space-y-8">
+      {/* Folders section */}
+      {folders.length > 0 && (
+        <div>
+          <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+            Pastas · {folders.length}
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            {folders.map((folder) => (
+              <button
+                key={folder.id}
+                onClick={() => onFolderClick(folder)}
+                className="group card-mystic rounded-2xl p-5 text-left hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 flex items-center gap-4 relative overflow-hidden"
+              >
+                <div className="absolute top-0 right-0 w-24 h-24 rounded-full blur-3xl opacity-[0.04] group-hover:opacity-[0.1] transition-opacity duration-500 bg-gold" />
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center border border-gold/20 bg-gold/10 text-gold shrink-0 group-hover:bg-gold/20 transition-colors">
+                  <FolderOpen size={20} className="hidden group-hover:block" />
+                  <Folder size={20} className="block group-hover:hidden" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-display text-[14px] text-foreground group-hover:text-gold transition-colors truncate">
+                    {folder.name}
+                  </h3>
+                  {folder.modifiedTime && (
+                    <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground mt-0.5">
+                      {new Date(folder.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                    </p>
+                  )}
+                </div>
+                <ChevronRight size={16} className="text-gold/40 group-hover:text-gold group-hover:translate-x-0.5 transition-all shrink-0" />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Files section */}
+      {files.length > 0 && (
+        <div>
+          {folders.length > 0 && (
+            <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground mb-4">
+              Arquivos · {files.length}
+            </p>
+          )}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+            {files.map((f) => {
+              const fmt = getFormat(f.name);
+              return (
+                <button
+                  key={f.id}
+                  onClick={() => onFileClick(f)}
+                  className="group card-mystic rounded-2xl p-6 text-left hover:border-gold/60 hover:-translate-y-1 transition-all duration-300 flex flex-col relative overflow-hidden"
+                >
+                  <div
+                    className="absolute top-0 right-0 w-32 h-32 rounded-full blur-3xl opacity-[0.03] group-hover:opacity-[0.08] transition-opacity duration-500"
+                    style={{ backgroundColor: fmt.color }}
+                  />
+
+                  <div className="flex justify-between items-start mb-4 relative z-10">
+                    <div
+                      className="w-10 h-10 rounded-xl flex items-center justify-center border transition-colors duration-300"
+                      style={{
+                        backgroundColor: `${fmt.color}10`,
+                        borderColor: `${fmt.color}30`,
+                        color: fmt.color,
+                      }}
+                    >
+                      <FormatIcon name={f.name} size={20} />
+                    </div>
+                    <FormatBadge name={f.name} />
+                  </div>
+
+                  <div className="flex flex-col flex-1 relative z-10">
+                    <h3 className="font-display text-[15px] text-foreground leading-snug group-hover:text-gold transition-colors line-clamp-3 mb-4">
+                      {cleanName(f.name)}
+                    </h3>
+
+                    <div className="mt-auto flex items-end justify-between">
+                      {f.modifiedTime ? (
+                        <p className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                          {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                        </p>
+                      ) : <div />}
+
+                      <div className="w-8 h-8 rounded-full border border-border-gold/30 flex items-center justify-center text-gold opacity-0 group-hover:opacity-100 transition-all duration-300 translate-x-2 group-hover:translate-x-0">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M5 12h14"></path>
+                          <path d="m12 5 7 7-7 7"></path>
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ─── List View ────────────────────────────────────────────────────────────────
+
+function ListView({
+  folders,
+  files,
+  onFolderClick,
+  onFileClick,
+}: {
+  folders: Extract<DriveItem, { kind: "folder" }>[];
+  files: Extract<DriveItem, { kind: "file" }>[];
+  onFolderClick: (folder: { id: string; name: string }) => void;
+  onFileClick: (file: DrivePdf) => void;
+}) {
+  return (
+    <div className="flex flex-col gap-2">
+      {/* Folders */}
+      {folders.map((folder) => (
+        <button
+          key={folder.id}
+          onClick={() => onFolderClick(folder)}
+          className="group card-mystic rounded-xl text-left hover:border-gold/60 transition-all duration-200 flex items-center gap-4 p-4"
+        >
+          <div className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center border border-gold/20 bg-gold/10 text-gold group-hover:bg-gold/20 transition-colors">
+            <FolderOpen size={24} className="hidden group-hover:block" />
+            <Folder size={24} className="block group-hover:hidden" />
+          </div>
+
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 mb-1">
+              <span className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded border text-gold border-gold/30 bg-gold/10">
+                <Folder size={10} />
+                Pasta
+              </span>
+              {folder.modifiedTime && (
+                <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                  {new Date(folder.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                </span>
+              )}
+            </div>
+            <h3 className="font-display text-[15px] text-foreground group-hover:text-gold transition-colors truncate">
+              {folder.name}
+            </h3>
+          </div>
+
+          <div className="text-[10px] uppercase tracking-[0.25em] text-gold/70 group-hover:text-gold transition-colors shrink-0 hidden sm:flex items-center gap-1">
+            Abrir <ChevronRight size={12} />
+          </div>
+        </button>
+      ))}
+
+      {/* Files */}
+      {files.map((f) => {
+        const fmt = getFormat(f.name);
+        return (
+          <button
+            key={f.id}
+            onClick={() => onFileClick(f)}
+            className="group card-mystic rounded-xl text-left hover:border-gold/60 transition-all duration-200 flex items-center gap-4 p-4"
+          >
+            <div
+              className="w-12 h-12 rounded-xl shrink-0 flex items-center justify-center border transition-colors"
+              style={{
+                backgroundColor: `${fmt.color}10`,
+                borderColor: `${fmt.color}30`,
+                color: fmt.color,
+              }}
+            >
+              <FormatIcon name={f.name} size={24} />
+            </div>
+
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 mb-1 flex-wrap">
+                <FormatBadge name={f.name} />
+                {f.modifiedTime && (
+                  <span className="text-[9px] uppercase tracking-[0.2em] text-muted-foreground">
+                    {new Date(f.modifiedTime).toLocaleDateString("pt-BR", { day: "2-digit", month: "short", year: "numeric" })}
+                  </span>
+                )}
+              </div>
+              <h3 className="font-display text-[15px] text-foreground group-hover:text-gold transition-colors truncate">
+                {cleanName(f.name)}
+              </h3>
+            </div>
+
+            <div className="text-[10px] uppercase tracking-[0.25em] text-gold/70 group-hover:text-gold transition-colors shrink-0 hidden sm:block">
+              Abrir →
+            </div>
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+// ─── PDF Viewer ───────────────────────────────────────────────────────────────
 
 function PdfViewer({ file, onClose }: { file: DrivePdf; onClose: () => void }) {
   return (
@@ -280,6 +485,8 @@ function PdfViewer({ file, onClose }: { file: DrivePdf; onClose: () => void }) {
   );
 }
 
+// ─── Loading ──────────────────────────────────────────────────────────────────
+
 function LoadingGrid() {
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
@@ -299,6 +506,8 @@ function LoadingGrid() {
     </div>
   );
 }
+
+// ─── Shell ────────────────────────────────────────────────────────────────────
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
