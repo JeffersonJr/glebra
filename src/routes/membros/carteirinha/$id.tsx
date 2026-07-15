@@ -4,7 +4,7 @@ import { Member, getMemberById } from "@/lib/members-db";
 import { MembershipCard } from "@/components/members/MembershipCard";
 import { SiteHeader } from "@/components/site-header";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ShieldCheck, Printer, Share2 } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Printer, Share2, FolderOpen, FileText, Award, FileCheck, Eye } from "lucide-react";
 import logoUrl from "@/assets/logo-glebra.webp";
 
 export const Route = createFileRoute("/membros/carteirinha/$id")({
@@ -152,6 +152,21 @@ function ViewMembershipCard() {
                 * Na janela de impressão, escolha <strong>Salvar como PDF</strong>.
               </p>
             </div>
+
+            {/* PASTA DO MEMBRO */}
+            <div className="w-full max-w-[380px] mt-16 print:hidden">
+              <div className="flex items-center gap-3 mb-6 border-b border-border-gold/20 pb-3">
+                <FolderOpen className="w-5 h-5 text-gold" />
+                <h3 className="font-display text-lg text-white font-bold">Pasta de Documentos</h3>
+              </div>
+              
+              <div className="flex flex-col gap-3">
+                <DocumentCard title="Certificado de Honra" date="12 Out 2021" icon={<Award className="w-5 h-5 text-emerald-400" />} />
+                <DocumentCard title="Patente de Grau" date="09 Ago 2020" icon={<FileText className="w-5 h-5 text-gold" />} />
+                <DocumentCard title="Quit Placet" date="01 Jan 2025" icon={<FileCheck className="w-5 h-5 text-blue-400" />} />
+              </div>
+            </div>
+
           </div>
         </main>
       </div>
@@ -160,5 +175,30 @@ function ViewMembershipCard() {
         <MembershipCard member={member} viewMode="digital-pdf" />
       </div>
     </>
+  );
+}
+
+// ─── Components ──────────────────────────────────────────────────────────────
+
+function DocumentCard({ title, date, icon }: { title: string; date: string; icon: React.ReactNode }) {
+  return (
+    <div className="flex items-center justify-between p-4 rounded-xl bg-surface/50 border border-border-gold/10 hover:border-gold/30 hover:bg-surface transition-all group">
+      <div className="flex items-center gap-4">
+        <div className="w-10 h-10 rounded-lg bg-background/50 border border-border-gold/10 flex items-center justify-center shadow-inner group-hover:bg-background transition-colors">
+          {icon}
+        </div>
+        <div>
+          <h4 className="text-sm font-semibold text-white group-hover:text-gold transition-colors">{title}</h4>
+          <p className="text-[10px] uppercase tracking-wider text-muted-foreground mt-0.5">Emitido: {date}</p>
+        </div>
+      </div>
+      <button 
+        className="w-8 h-8 rounded-full border border-border-gold/20 flex items-center justify-center text-muted-foreground hover:bg-gold/10 hover:text-gold hover:border-gold/40 transition-all cursor-pointer"
+        title="Visualizar documento"
+        onClick={() => alert("Simulação: Abriria o visualizador do documento.")}
+      >
+        <Eye className="w-4 h-4" />
+      </button>
+    </div>
   );
 }

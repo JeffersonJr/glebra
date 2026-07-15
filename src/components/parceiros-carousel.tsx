@@ -3,155 +3,155 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 const PARCEIROS = [
   {
     nome: "Ra Heru Khuti Supreme Council",
-    logo: "/parceiros/Mask-group-4-300x300.png"
+    logo: "/parceiros/ra-heru-khuti-supreme-council.png"
   },
   {
     nome: "General Grand Council",
-    logo: "/parceiros/Group-94-300x226.png"
+    logo: "/parceiros/general-grand-council.png"
   },
   {
     nome: "Supreme Grand Chapter Royal Arch Masons Saint Callistus I",
-    logo: "/parceiros/Mask-group-5-300x300.png"
+    logo: "/parceiros/supreme-grand-chapter-royal-arch-masons-saint-callistus-i.png"
   },
   {
     nome: "Allenaza Universale Massonica",
-    logo: "/parceiros/Mask-group-6-300x300.png"
+    logo: "/parceiros/allenaza-universale-massonica.png"
   },
   {
     nome: "Soberano Santuario de bolivia",
-    logo: "/parceiros/image-185-300x293.png"
+    logo: "/parceiros/soberano-santuario-de-bolivia.png"
   },
   {
     nome: "Internacional Grand College of Egyptian Masonic Rites",
-    logo: "/parceiros/Mask-group-300x300.png"
+    logo: "/parceiros/internacional-grand-college-of-egyptian-masonic-rites.png"
   },
   {
     nome: "Hermeticus Equites Antiqus Ordinis Ancient Order of Hermetic Knights",
-    logo: "/parceiros/image-177-300x300.png"
+    logo: "/parceiros/hermeticus-equites-antiqus-ordinis-ancient-order-of-hermetic-knights.png"
   },
   {
     nome: "Internacional Sanctuary of Amun Ancient and Primitive Rites of Memphis and Mizraim",
-    logo: "/parceiros/Mask-group-1-300x218.png"
+    logo: "/parceiros/internacional-sanctuary-of-amun-ancient-and-primitive-rites-of-memphis-and-mizraim.png"
   },
   {
     nome: "Supremo Conselho dos Altos Graus Maçônicos para o Brasil",
-    logo: "/parceiros/Mask-group-1-292x300.png"
+    logo: "/parceiros/supremo-conselho-dos-altos-graus-maconicos-para-o-brasil.png"
   },
   {
     nome: "Corte Internacional de Justiça do Brasil",
-    logo: "/parceiros/4-7230868-300x300.png"
+    logo: "/parceiros/corte-internacional-de-justica-do-brasil.png"
   },
   {
     nome: "Supremo Conclave Internacional de Ritos Iniciáticos",
-    logo: "/parceiros/1-300x298.png"
+    logo: "/parceiros/supremo-conclave-internacional-de-ritos-iniciaticos.png"
   },
   {
     nome: "Supremo Conselho Egípcio do Brasil",
-    logo: "/parceiros/2-300x300.png"
+    logo: "/parceiros/supremo-conselho-egipcio-do-brasil.png"
   },
   {
     nome: "Ordem Hermética do Livre Buscador",
-    logo: "/parceiros/3-2-300x300.png"
+    logo: "/parceiros/ordem-hermetica-do-livre-buscador.png"
   },
   {
     nome: "Grande Oriente Nacional Colombiano",
-    logo: "/parceiros/image-153-300x300.png"
+    logo: "/parceiros/grande-oriente-nacional-colombiano.png"
   },
   {
     nome: "Supremo Gran Capitulo de La Antigua Masoneria de York De Gran Oriente",
-    logo: "/parceiros/image-155-300x300.png"
+    logo: "/parceiros/supremo-gran-capitulo-de-la-antigua-masoneria-de-york-de-gran-oriente.png"
   },
   {
     nome: "Internacional Anglo Masonic Confederation",
-    logo: "/parceiros/image-160-300x300.png"
+    logo: "/parceiros/internacional-anglo-masonic-confederation.png"
   },
   {
     nome: "Supremo Conselho Anglo Maçônico para o Grau 33º",
-    logo: "/parceiros/image-165-300x295.png"
+    logo: "/parceiros/supremo-conselho-anglo-maconico-para-o-grau-33.png"
   },
   {
     nome: "Supremo Conselho do Rito Italiano",
-    logo: "/parceiros/image-164-300x300.png"
+    logo: "/parceiros/supremo-conselho-do-rito-italiano.png"
   },
   {
     nome: "Supremo Conselho do RITAM",
-    logo: "/parceiros/Mask-group-300x300.png"
+    logo: "/parceiros/supremo-conselho-do-ritam.png"
   },
   {
     nome: "Soberano Gran Conselho de Sublimes Principes Del Real Secreto para Colombiano",
-    logo: "/parceiros/image-156-300x300.png"
+    logo: "/parceiros/soberano-gran-conselho-de-sublimes-principes-del-real-secreto-para-colombiano.png"
   },
   {
     nome: "Soberano Santuário Egipcio de Colombia",
-    logo: "/parceiros/image-158-297x300.png"
+    logo: "/parceiros/soberano-santuario-egipcio-de-colombia.png"
   },
   {
     nome: "Supremo Conselho de la Nueva Granada",
-    logo: "/parceiros/Group-90-300x300.png"
+    logo: "/parceiros/supremo-conselho-de-la-nueva-granada.png"
   },
   {
     nome: "Supremo Conselho de la Jurisdicion del Centro",
-    logo: "/parceiros/Group-91-263x300.png"
+    logo: "/parceiros/supremo-conselho-de-la-jurisdicion-del-centro.png"
   },
   {
     nome: "O∴I∴E∴N∴B∴",
-    logo: "/parceiros/Group-92-300x300.png"
+    logo: "/parceiros/oienb.png"
   },
   {
     nome: "Ordens Masonica de Colombia",
-    logo: "/parceiros/image-157-298x300.png"
+    logo: "/parceiros/ordens-masonica-de-colombia.png"
   },
   {
     nome: "Gran Capitulo General del Gran Oriente Nacional Colombiano",
-    logo: "/parceiros/Group-93-300x300.png"
+    logo: "/parceiros/gran-capitulo-general-del-gran-oriente-nacional-colombiano.png"
   },
   {
     nome: "Gran Oriente Nacional Colombiano",
-    logo: "/parceiros/image-154-300x300.png"
+    logo: "/parceiros/gran-oriente-nacional-colombiano.png"
   },
   {
     nome: "Grande Loja Irmandade Estrela Negra do Brasil",
-    logo: "/parceiros/image-161-300x300.png"
+    logo: "/parceiros/grande-loja-irmandade-estrela-negra-do-brasil.png"
   },
   {
     nome: "Soberana Ordem Templária Cavaleiros do coração de Cristo",
-    logo: "/parceiros/image-162-253x300.png"
+    logo: "/parceiros/soberana-ordem-templaria-cavaleiros-do-coracao-de-cristo.png"
   },
   {
     nome: "Casa Real Ferreira",
-    logo: "/parceiros/image-163-300x300.png"
+    logo: "/parceiros/casa-real-ferreira.png"
   },
   {
     nome: "GR. Cons. de Mmaç. para o Brasil",
-    logo: "/parceiros/image-173-300x300.png"
+    logo: "/parceiros/gr-cons-de-mmac-para-o-brasil.png"
   },
   {
     nome: "Grande Capítulo do Arco Real para o Brasil",
-    logo: "/parceiros/image-174-300x300.png"
+    logo: "/parceiros/grande-capitulo-do-arco-real-para-o-brasil.png"
   },
   {
     nome: "Supreme Conseil Universel Phênicen Liban",
-    logo: "/parceiros/Mask-group-2-300x300.png"
+    logo: "/parceiros/supreme-conseil-universel-phenicen-liban.png"
   },
   {
     nome: "Grande Loge Universelle Phénicienne",
-    logo: "/parceiros/Mask-group-1-1-300x300.png"
+    logo: "/parceiros/grande-loge-universelle-phenicienne.png"
   },
   {
     nome: "Real Gran Logia Hermética Mixta Valle del Paraguay",
-    logo: "/parceiros/image-178-300x300.png"
+    logo: "/parceiros/real-gran-logia-hermetica-mixta-valle-del-paraguay.png"
   },
   {
     nome: "Ausaru Sovereign Sanctuary of the U.S.A",
-    logo: "/parceiros/image-179-300x300.png"
+    logo: "/parceiros/ausaru-sovereign-sanctuary-of-the-usa.png"
   },
   {
     nome: "Hugues de Paynes Supreme General Grand Encampment",
-    logo: "/parceiros/Mask-group-2-1-300x300.png"
+    logo: "/parceiros/hugues-de-paynes-supreme-general-grand-encampment.png"
   },
   {
     nome: "St Gelasius Sovereign International",
-    logo: "/parceiros/Mask-group-3-300x300.png"
+    logo: "/parceiros/st-gelasius-sovereign-international.png"
   }
 ];
 

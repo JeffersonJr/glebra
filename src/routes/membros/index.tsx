@@ -12,7 +12,7 @@ export const Route = createFileRoute("/membros/")({
   head: () => ({
     meta: [
       { title: "Portal de Membros — GLEBRA" },
-      { name: "description", content: "Portal oficial dos membros da GLEBRA – Grande Loja Egípcia Brasileira de Maçonaria de Memphis e Misraim." },
+      { name: "description", content: "Portal oficial dos membros da GLEBRA – Grande Loja Egípcia Brasileira." },
     ],
   }),
   component: MembersPortal,
@@ -45,7 +45,7 @@ function MembersPortal() {
             <div>
               <p className="text-gold/70 font-bold uppercase tracking-[0.3em] text-xs mb-2">Portal da Loja</p>
               <h1 className="font-display text-4xl md:text-5xl font-light text-gradient-gold">
-                Portal de Membros
+                Portal da Grande Loja Egípcia Brasileira
               </h1>
             </div>
 
@@ -151,9 +151,9 @@ function MembersPortal() {
       </main>
 
       <footer className="border-t border-border-gold/20 py-6 px-6 text-center">
-        <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} GLEBRA — Grande Loja Egípcia Brasileira de Maçonaria de Memphis e Misraim
-        </p>
+        <div className="mt-8 text-center text-xs text-muted-foreground">
+          © {new Date().getFullYear()} GLEBRA — Grande Loja Egípcia Brasileira
+        </div>
       </footer>
     </div>
   );

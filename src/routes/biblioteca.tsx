@@ -523,10 +523,10 @@ function Shell({ children }: { children: React.ReactNode }) {
             <span className="divider-gold-line" />
           </p>
           <h1 className="text-5xl md:text-6xl mb-6">
-            <span className="text-gradient-gold italic">Biblioteca</span> de Alexandria
+            <span className="text-gradient-gold italic">Biblioteca</span> Alexandria Digital
           </h1>
           <p className="max-w-2xl mx-auto text-muted-foreground font-light leading-relaxed">
-            Estudos, tratados e documentos preservados pela Grande Loja Egípcia Brasileira. Ao clicar em uma obra, ela abrirá para leitura direta.
+            Estudos, tratados e documentos preservados pela Grande Loja Egípcia Brasileira. Ao clicar em uma obra, ela abrirá instantâneamente para leitura.
           </p>
         </div>
       </section>

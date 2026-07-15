@@ -15,7 +15,7 @@ export function FAQ() {
       a: "Não. A Maçonaria não é uma religião, embora exija a crença em um Princípio Criador (G∴A∴D∴U∴). Aceita homens de qualquer credo e respeita todas as confissões religiosas.",
     },
     {
-      q: "Quanto custa para ser maçom?",
+      q: "Quanto custa para ser franco maçom?",
       a: "Existem contribuições mensais (mensalidades) que mantêm a Loja, além de joias e paramentos próprios. Os valores são discutidos abertamente durante o processo de admissão.",
     },
     {

@@ -23,7 +23,7 @@ function NovoCadastro() {
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
-    role: "Aprendiz Maçom",
+    role: "Aprendiz Franco Maçom",
     cim: "",
     initiationDate: "",
     email: "",
@@ -81,7 +81,7 @@ function NovoCadastro() {
 
                 <div className="space-y-2">
                   <Label htmlFor="role" className="text-xs uppercase tracking-wider text-muted-foreground">Grau / Título</Label>
-                  <Input id="role" value={form.role} onChange={(e) => update("role", e.target.value)} placeholder="Ex: Mestre Maçom" className="h-12 bg-surface border-border-gold/20 focus-visible:ring-gold" />
+                  <Input id="role" value={form.role} onChange={(e) => update("role", e.target.value)} placeholder="Ex: Mestre Franco Maçom" className="h-12 bg-surface border-border-gold/20 focus-visible:ring-gold" />
                 </div>
 
                 <div className="space-y-2">

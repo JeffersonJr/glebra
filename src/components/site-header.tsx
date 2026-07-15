@@ -4,8 +4,7 @@ import logoAsset from "@/assets/logo-glebra.webp";
 
 export const NAV = [
   { label: "Quem Somos", href: "/#quem-somos" },
-  { label: "Missão", href: "/#missao" },
-  { label: "Graus", href: "/#graus" },
+  { label: "Imortais", href: "/imortais" },
   { label: "Biblioteca", href: "/biblioteca" },
   { label: "Membros", href: "/membros" },
   { label: "FAQ", href: "/#faq" },
@@ -76,7 +75,7 @@ export function SiteHeader({ transparentTop = false }: SiteHeaderProps) {
             to="/triagem"
             className="hidden sm:inline-flex btn-gold btn-gold-hover rounded-full px-5 py-2 text-xs font-medium uppercase tracking-[0.2em]"
           >
-            Quero ser um Maçom
+            Quero ser um Franco Maçom
           </Link>
 
           {/* Hamburger - mobile only */}
@@ -127,7 +126,7 @@ export function SiteHeader({ transparentTop = false }: SiteHeaderProps) {
             onClick={() => setMenuOpen(false)}
             className="mt-3 btn-gold btn-gold-hover rounded-full px-5 py-2.5 text-xs font-medium uppercase tracking-[0.2em] text-center"
           >
-            Quero ser um Maçom
+            Quero ser um Franco Maçom
           </Link>
         </div>
       </div>

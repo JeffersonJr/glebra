@@ -62,7 +62,7 @@ export function ExitIntentModal() {
               size="lg"
               className="btn-gold btn-gold-hover h-12 px-6 rounded-full font-medium"
             >
-              <Link to="/triagem" onClick={() => setIsOpen(false)}>Quero ser um Maçom</Link>
+              <Link to="/triagem" onClick={() => setIsOpen(false)}>Quero ser um Franco Maçom</Link>
             </Button>
             <Button
               asChild

@@ -18,14 +18,14 @@ export const DEFAULT_MEMBERS: Member[] = [
   {
     id: "jefferson-campos-beira-junior",
     name: "Jefferson Campos Beira Junior",
-    role: "Mestre Maçom",
+    role: "Mestre Franco Maçom",
     cim: "32071",
     initiationDate: "09 de Agosto de 2020",
     email: "jefferson@glebra.com.br",
     photo: jeffersonPhoto,
     status: "regular",
     joinedAt: "2020-08-09T00:00:00.000Z",
-    office: "Secretário",
+    office: "Grande Secretario",
   },
 ];
 

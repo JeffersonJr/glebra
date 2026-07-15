@@ -62,10 +62,10 @@ Seguem meus dados:
             <span className="divider-gold-line" />
           </p>
           <h2 className="text-4xl md:text-5xl mb-4">
-            Maçom regular? <span className="text-gradient-gold italic">Junte-se a nós</span>
+            Franco Maçom regular? <span className="text-gradient-gold italic">Junte-se a nós</span>
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Se você já é Maçom regular e deseja fazer parte da Grande Loja Egípcia Brasileira (GLEBRA),
+            Se você já é Franco Maçom regular e deseja fazer parte da Grande Loja Egípcia Brasileira (GLEBRA),
             preencha o formulário abaixo. Nosso secretário entrará em contato para os trâmites
             fraternais de filiação ou regularização.
           </p>
