@@ -109,8 +109,8 @@ function ImortaisPage() {
               className="bg-surface/50 border border-border-gold/20 rounded-2xl overflow-hidden hover:border-gold/40 transition-all duration-500 group relative flex flex-col"
             >
               {/* Image / Avatar Placeholder */}
-              <div className="w-full aspect-square bg-black/40 relative overflow-hidden flex items-center justify-center border-b border-border-gold/20">
-                <img src={immortal.image} alt={immortal.name} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-80 mix-blend-luminosity hover:mix-blend-normal" />
+              <div className="w-full aspect-square p-4 bg-black/40 relative overflow-hidden flex items-center justify-center border-b border-border-gold/20">
+                <img src={immortal.image} alt={immortal.name} className="relative z-10 w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 opacity-80 mix-blend-luminosity hover:mix-blend-normal drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]" />
                 <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent z-0 opacity-80" />
               </div>
 
