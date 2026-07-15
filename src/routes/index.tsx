@@ -161,7 +161,7 @@ function HomePage() {
 
           <p className="divider-gold justify-center mb-6">
             <span className="divider-gold-line" />
-            Preservando o antigo conhecimento da Franco maçonaria Egípcia Brasileira
+            Preservando o antigo conhecimento da Franco maçonaria
             <span className="divider-gold-line" />
           </p>
 
