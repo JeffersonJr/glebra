@@ -15,13 +15,22 @@ export const Route = createFileRoute("/tratados")({
 
 // Tratados Placeholder Data
 const TRATADOS = [
-  {
-    nome: "Tratado de Amizade e Mútuo Reconhecimento",
-    ordem: "Nome da Ordem ou Obediência",
-    data: "2024",
-    imagem: "", // Placeholder, to be replaced by the PNGs
-  },
-  // Mais tratados podem ser adicionados aqui
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-01.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-02.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-03.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-04.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-05.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-06.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-07.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-08.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-09.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-10.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-11.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-12.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-13.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-14.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-15.jpeg" },
+  { nome: "Tratado de Amizade e Mútuo Reconhecimento", ordem: "Potência Maçônica", data: "2024", imagem: "/tratados/tratado-16.jpeg" }
 ];
 
 function TratadosPage() {
