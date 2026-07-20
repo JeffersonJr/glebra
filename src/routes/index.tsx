@@ -1,5 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState, useRef } from "react";
+import { BookOpen, Star, Sparkles, ChevronRight, CheckCircle2, FileText, ArrowRight, X } from "lucide-react";
 import logoAsset from "@/assets/logo-glebra.webp";
 import logoSoseb from "@/assets/logo-soseb.png";
 import heroCosmos from "@/assets/hero-cosmos.jpg";
@@ -16,6 +17,7 @@ export const Route = createFileRoute("/")({
 });
 
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 const PRINCIPIOS = [
   { t: "O Grande Arquiteto", d: "A crença em um Ser Supremo e Princípio Criador do Universo." },
@@ -166,8 +168,8 @@ function HomePage() {
           </p>
 
           <h1 className="text-5xl md:text-7xl lg:text-7xl leading-[1.02] mb-8">
-            <span className="block text-foreground/95">Antigo e Primitivo Rito</span>
-            <span className="block text-gradient-gold italic font-light">Oriental de Memphis & Misraim</span>
+            <span className="block text-foreground/95">Antigo e Primitivo Rito Oriental de</span>
+            <span className="block text-gradient-gold italic font-light">Memphis & Misraim</span>
           </h1>
 
           <p className="max-w-2xl mx-auto text-base md:text-lg text-muted-foreground leading-relaxed mb-12 font-light">
@@ -522,86 +524,7 @@ function HomePage() {
       <FAQ />
 
       {/* FOOTER */}
-      <footer className="bg-surface border-t border-border-gold/20">
-        <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-10">
-            {/* Coluna 1: Brand */}
-            <div className="space-y-4">
-              <div className="flex items-center gap-3">
-                <img src={logoAsset} alt="GLEBRA" className="h-12 w-12" />
-                <div>
-                  <div className="text-[10px] uppercase tracking-[0.25em] text-gold">G.L.E.B.R.A.</div>
-                  <div className="font-display text-foreground font-semibold">Grande Loja Egípcia Brasileira</div>
-                </div>
-              </div>
-              <p className="text-xs leading-relaxed text-muted-foreground">
-                Instituição iniciática do Antigo e Primitivo Rito Oriental de Memphis & Misraim
-              </p>
-              <a
-                href="https://soseb.org.br/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 pt-4 border-t border-border-gold/20 hover:opacity-90 transition-opacity"
-              >
-                <img src={logoSoseb} alt="SOSEB" className="h-10 w-10 object-contain" />
-                <div>
-                  <p className="text-[8px] uppercase tracking-wider text-gold font-bold">jurisdicionado ao</p>
-                  <p className="text-[10px] text-foreground/80 font-medium leading-tight">SOSEB — Soberano Santuário Egípcio do Brasil</p>
-                </div>
-              </a>
-            </div>
-
-            {/* Coluna 2: Navegação */}
-            <div>
-              <h2 className="text-gold font-display text-base font-semibold mb-4">Navegação</h2>
-              <ul className="space-y-2 text-xs text-muted-foreground">
-                <li><a href="/#quem-somos" className="hover:text-gold transition-colors">Quem Somos</a></li>
-                <li><a href="/#missao" className="hover:text-gold transition-colors">Nossa Missão</a></li>
-                <li><a href="/#graus" className="hover:text-gold transition-colors">Graus Maçônicos</a></li>
-                <li><a href="/#linhagens" className="hover:text-gold transition-colors">Nossas Linhagens</a></li>
-                <li><a href="/#faq" className="hover:text-gold transition-colors">Perguntas Frequentes</a></li>
-              </ul>
-            </div>
-
-            {/* Coluna 3: Portais */}
-            <div>
-              <h2 className="text-gold font-display text-base font-semibold mb-4">Portais</h2>
-              <ul className="space-y-2 text-xs text-muted-foreground">
-                <li><Link to="/biblioteca" className="hover:text-gold transition-colors">Biblioteca de Alexandria</Link></li>
-                <li><Link to="/membros" className="hover:text-gold transition-colors">Portal de Membros</Link></li>
-                <li><Link to="/membros/carteirinha/validar" search={{ id: undefined }} className="hover:text-gold transition-colors">Validação de Carteirinha</Link></li>
-                <li><Link to="/triagem" className="hover:text-gold transition-colors font-medium text-gold/90">Quero ser um Franco Maçom</Link></li>
-              </ul>
-            </div>
-
-            {/* Coluna 4: Contato */}
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-gold font-display text-base font-semibold mb-2">Contato</h2>
-                <a href="https://wa.me/5513988766605" target="_blank" rel="noopener noreferrer" className="text-xs text-gold hover:underline block">
-                  +55 13 98876-6605
-                </a>
-              </div>
-              <div className="pt-2 border-t border-border-gold/20">
-                <h2 className="text-gold font-display text-xs uppercase tracking-widest mb-1.5">Princípios</h2>
-                <p className="text-[10px] uppercase tracking-[0.2em] leading-relaxed text-muted-foreground">
-                  Liberdade · Igualdade · Fraternidade
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-t border-border-gold/20 mt-10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-muted-foreground">
-            <p>© {new Date().getFullYear()} GLEBRA — Grande Loja Egípcia Brasileira</p>
-            <p>
-              Powered by{" "}
-              <a href="https://evolves.site" target="_blank" rel="noopener noreferrer" className="text-gold hover:text-gold/80 transition-colors font-medium">
-                evolves tecnologia
-              </a>
-            </p>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
       {/* EXIT INTENT MODAL */}
       <ExitIntentModal />

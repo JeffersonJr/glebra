@@ -2,6 +2,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 
 const PARCEIROS = [
   {
+    nome: "Soberano Conselho do Rito Elus Kohen Brasil",
+    logo: "/parceiros/elus-kohen.png"
+  },
+  {
     nome: "Ra Heru Khuti Supreme Council",
     logo: "/parceiros/ra-heru-khuti-supreme-council.png"
   },

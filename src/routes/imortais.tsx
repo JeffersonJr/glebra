@@ -12,9 +12,9 @@ import imgPike from "@/assets/imortais/pike.png";
 export const Route = createFileRoute("/imortais")({
   head: () => ({
     meta: [
-      { title: "Galeria dos Imortais — GLEBRA" },
+      { title: "Galeria dos Imortais de Memphis & Misraim — GLEBRA" },
       { name: "description", content: "Figuras lendárias e históricas da Maçonaria Egípcia de Memphis-Misraim." },
-      { property: "og:title", content: "Galeria dos Imortais — GLEBRA" },
+      { property: "og:title", content: "Galeria dos Imortais de Memphis & Misraim — GLEBRA" },
     ],
     links: [{ rel: "canonical", href: "/imortais" }],
   }),
@@ -82,7 +82,7 @@ function ImortaisPage() {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold/10 via-background to-background" />
         </div>
-        
+
         <div className="mx-auto max-w-5xl px-6 relative z-10 text-center">
           <p className="divider-gold justify-center mb-6">
             <span className="divider-gold-line" />
@@ -90,11 +90,11 @@ function ImortaisPage() {
             <span className="divider-gold-line" />
           </p>
           <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-gradient-gold font-bold mb-6 drop-shadow-sm">
-            Galeria dos Imortais
+            Galeria dos Imortais de Memphis & Misraim
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto text-lg leading-relaxed font-light">
-            Aqueles cujos nomes ecoam na eternidade. Grandes Mestres, Hierofantes e Guardiões 
-            que devotaram suas vidas para estruturar, preservar e transmitir a Luz do 
+            Aqueles cujos nomes ecoam na eternidade. Grandes Mestres, Hierofantes e Guardiões
+            que devotaram suas vidas para estruturar, preservar e transmitir a Luz do
             Antigo e Primitivo Rito de Memphis & Misraim.
           </p>
         </div>
@@ -104,7 +104,7 @@ function ImortaisPage() {
       <main className="flex-grow px-6 pb-24 relative z-10">
         <div className="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-8">
           {IMMORTALS.map((immortal, index) => (
-            <div 
+            <div
               key={index}
               className="bg-surface/50 border border-border-gold/20 rounded-2xl overflow-hidden hover:border-gold/40 transition-all duration-500 group relative flex flex-col"
             >

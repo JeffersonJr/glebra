@@ -6,8 +6,9 @@ import {
   type DrivePdf,
   type DriveItem,
 } from "@/lib/drive.functions";
-import { LayoutGrid, List, FileText, BookOpen, FileArchive, File, Folder, FolderOpen, ChevronRight, Home } from "lucide-react";
+import { LayoutGrid, List, FileText, BookOpen, FileArchive, File, Folder, FolderOpen, ChevronRight, Home, Info } from "lucide-react";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -18,9 +19,9 @@ type BreadcrumbEntry = { id: string | null; name: string };
 export const Route = createFileRoute("/biblioteca")({
   head: () => ({
     meta: [
-      { title: "Biblioteca de Alexandria — GLEBRA" },
+      { title: "Biblioteca Alexandria Virtual — GLEBRA" },
       { name: "description", content: "Acervo digital da Grande Loja Egípcia Brasileira. Estudos, tratados e documentos herméticos." },
-      { property: "og:title", content: "Biblioteca de Alexandria — GLEBRA" },
+      { property: "og:title", content: "Biblioteca Alexandria Virtual — GLEBRA" },
       { property: "og:description", content: "Acervo digital hermético da GLEBRA." },
     ],
     links: [{ rel: "canonical", href: "/biblioteca" }],
@@ -523,17 +524,26 @@ function Shell({ children }: { children: React.ReactNode }) {
             <span className="divider-gold-line" />
           </p>
           <h1 className="text-5xl md:text-6xl mb-6">
-            <span className="text-gradient-gold italic">Biblioteca</span> Alexandria Digital
+            <span className="text-gradient-gold italic">Biblioteca</span> Alexandria Virtual
           </h1>
-          <p className="max-w-2xl mx-auto text-muted-foreground font-light leading-relaxed">
-            Estudos, tratados e documentos preservados pela Grande Loja Egípcia Brasileira. Ao clicar em uma obra, ela abrirá instantâneamente para leitura.
+          <p className="max-w-2xl mx-auto text-muted-foreground font-light leading-relaxed mb-8">
+            Estudos, tratados e documentos preservados pela Grande Loja Egípcia Brasileira. Ao clicar em uma obra, ela abrirá instantaneamente para leitura.
           </p>
+
+          <div className="max-w-3xl mx-auto bg-surface/50 border border-gold/20 rounded-xl p-6 text-sm text-muted-foreground/90 font-light flex gap-4 text-left shadow-lg">
+            <Info className="w-6 h-6 text-gold flex-shrink-0 mt-0.5" />
+            <p className="italic">
+              "A Antiga Biblioteca de Alexandria fundada no século III a. C. foi o maior Centro de Saber do Mundo Antigo. Parte do Complexo Mouseion, possuía 700 mil rolos de papiro de diversas culturas. É em memória a essa imponente biblioteca que criamos a Biblioteca Alexandria Virtual."
+            </p>
+          </div>
         </div>
       </section>
 
-      <main className="py-20 px-6">
+      <main className="py-20 px-6 flex-grow">
         <div className="mx-auto max-w-7xl">{children}</div>
       </main>
+
+      <SiteFooter />
     </div>
   );
 }
