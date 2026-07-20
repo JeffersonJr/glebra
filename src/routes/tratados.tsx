@@ -1,7 +1,8 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { FileText, ShieldCheck } from "lucide-react";
+import { FileText, ShieldCheck, X } from "lucide-react";
 
 export const Route = createFileRoute("/tratados")({
   head: () => ({
@@ -34,6 +35,8 @@ const TRATADOS = [
 ];
 
 function TratadosPage() {
+  const [selectedImage, setSelectedImage] = useState<string | null>(null);
+
   return (
     <div className="min-h-screen bg-background flex flex-col font-sans">
       <SiteHeader />
@@ -67,7 +70,11 @@ function TratadosPage() {
               {TRATADOS.map((tratado, index) => (
                 <div key={index} className="bg-surface/50 border border-border-gold/20 rounded-2xl overflow-hidden hover:border-gold/40 transition-all duration-500 group flex flex-col">
                   {/* Image Placeholder */}
-                  <div className="w-full aspect-[3/4] bg-black/40 relative overflow-hidden flex items-center justify-center p-4">
+                  <button 
+                    onClick={() => tratado.imagem && setSelectedImage(tratado.imagem)}
+                    className="w-full aspect-[3/4] bg-black/40 relative overflow-hidden flex items-center justify-center p-4 cursor-pointer focus:outline-none"
+                    aria-label={`Ver documento do ${tratado.nome}`}
+                  >
                     {tratado.imagem ? (
                       <img src={tratado.imagem} alt={tratado.nome} className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105 drop-shadow-[0_10px_30px_rgba(0,0,0,0.8)]" />
                     ) : (
@@ -76,8 +83,8 @@ function TratadosPage() {
                         <span className="text-xs uppercase tracking-widest">Documento</span>
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent z-0 opacity-80" />
-                  </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent z-0 opacity-80 pointer-events-none" />
+                  </button>
 
                   {/* Content */}
                   <div className="p-6 flex flex-col flex-grow relative z-10">
@@ -105,6 +112,33 @@ function TratadosPage() {
           )}
         </div>
       </main>
+
+      {/* Image Modal */}
+      {selectedImage && (
+        <div 
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-xl p-4 md:p-8"
+          onClick={() => setSelectedImage(null)}
+        >
+          <button 
+            className="absolute top-6 right-6 md:top-10 md:right-10 p-3 bg-surface/50 hover:bg-gold/20 border border-border-gold/30 hover:border-gold rounded-full text-muted-foreground hover:text-gold transition-all"
+            onClick={() => setSelectedImage(null)}
+            aria-label="Fechar"
+          >
+            <X size={24} />
+          </button>
+          
+          <div 
+            className="w-full h-full max-w-5xl max-h-[90vh] flex items-center justify-center relative shadow-2xl rounded-lg"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img 
+              src={selectedImage} 
+              alt="Documento do Tratado Ampliado" 
+              className="max-w-full max-h-full object-contain rounded drop-shadow-[0_0_50px_rgba(0,0,0,0.8)] border border-border-gold/20"
+            />
+          </div>
+        </div>
+      )}
 
       <SiteFooter />
     </div>
