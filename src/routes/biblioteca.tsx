@@ -160,14 +160,41 @@ function PdfLibrary() {
 
   if (error || data?.error) {
     return (
-      <div className="card-mystic rounded-xl p-10 text-center max-w-2xl mx-auto">
-        <div className="font-display text-3xl text-gradient-gold mb-3">Biblioteca em preparo</div>
-        <p className="text-sm text-muted-foreground leading-relaxed">
-          {data?.error ?? String(error)}
+      <div className="flex flex-col items-center justify-center py-16 px-6 text-center max-w-2xl mx-auto">
+        {/* Decorative scroll icon */}
+        <div className="relative mb-8">
+          <div className="w-24 h-24 rounded-full bg-surface border border-border-gold/30 flex items-center justify-center shadow-[0_0_40px_rgba(197,160,89,0.15)]">
+            <BookOpen className="w-10 h-10 text-gold/60" strokeWidth={1.2} />
+          </div>
+          <div className="absolute -top-1 -right-1 w-6 h-6 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center">
+            <span className="text-gold text-xs">⟳</span>
+          </div>
+        </div>
+
+        {/* Title */}
+        <p className="divider-gold justify-center mb-4">
+          <span className="divider-gold-line" />
+          Em Manutenção
+          <span className="divider-gold-line" />
+        </p>
+        <h2 className="font-display text-3xl md:text-4xl text-gradient-gold mb-4">
+          Acervo Temporariamente Indisponível
+        </h2>
+        <p className="text-muted-foreground text-base leading-relaxed mb-8 max-w-lg">
+          Nosso acervo digital está passando por uma atualização para melhor servir à nossa fraternidade.
+          Em breve os documentos, tratados e obras herméticas estarão novamente acessíveis.
+        </p>
+
+        {/* Separator */}
+        <div className="w-full max-w-xs border-t border-border-gold/20 mb-6" />
+
+        <p className="text-xs text-muted-foreground/60 uppercase tracking-widest">
+          Obrigado pela paciência, Irmão
         </p>
       </div>
     );
   }
+
 
   const items = (data?.items ?? []).filter((item) =>
     item.name.toLowerCase().includes(query.toLowerCase()),
