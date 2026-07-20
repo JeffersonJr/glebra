@@ -30,7 +30,7 @@ function TratadosPage() {
       <SiteHeader />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 px-6 overflow-hidden flex-shrink-0">
+      <section className="relative pt-44 pb-16 px-6 overflow-hidden flex-shrink-0">
         <div className="absolute inset-0 bg-[url('@/assets/hero-cosmos.jpg')] opacity-20 bg-cover bg-center grayscale mix-blend-overlay" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent z-0" />
         

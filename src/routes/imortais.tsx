@@ -78,7 +78,7 @@ function ImortaisPage() {
       <SiteHeader transparentTop={false} />
 
       {/* Hero Section */}
-      <section className="relative pt-32 pb-16 overflow-hidden">
+      <section className="relative pt-44 pb-16 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold/10 via-background to-background" />
         </div>

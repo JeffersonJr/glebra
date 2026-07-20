@@ -144,7 +144,7 @@ function HomePage() {
           />
         </div>
 
-        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center pt-20">
+        <div className="relative z-10 mx-auto max-w-4xl px-6 text-center pt-40">
           <div className="mb-10 flex justify-center animate-float-slow">
             <div className="relative">
               <div

@@ -542,7 +542,7 @@ function Shell({ children }: { children: React.ReactNode }) {
     <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
-      <section className="relative py-20 px-6 text-center border-b border-border-gold/20">
+      <section className="relative pt-44 pb-20 px-6 text-center border-b border-border-gold/20">
         <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ background: "var(--gradient-radial-gold)" }} />
         <div className="relative">
           <p className="divider-gold justify-center mb-6">
