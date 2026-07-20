@@ -188,7 +188,7 @@ function PdfLibrary() {
         {/* Separator */}
         <div className="w-full max-w-xs border-t border-border-gold/20 mb-6" />
 
-        <p className="text-xs text-muted-foreground/60 uppercase tracking-widest">
+        <p className="text-xs text-muted-foreground/60 uppercase tracking-widest mt-8">
           Obrigado pela paciência, Irmão
         </p>
       </div>

@@ -49,7 +49,11 @@ export const listDrivePdfs = createServerFn({ method: "GET" })
       )}&fields=${encodeURIComponent(fields)}&orderBy=folder,name&pageSize=500&key=${apiKey}`;
 
       try {
-        const res = await fetch(url);
+        const res = await fetch(url, {
+          headers: {
+            "Referer": "https://glebra.com.br/"
+          }
+        });
         if (!res.ok) {
           const body = await res.text();
           console.error("[drive] list failed", res.status, body);
@@ -110,7 +114,11 @@ export const getDriveFolderName = createServerFn({ method: "GET" })
 
     const url = `https://www.googleapis.com/drive/v3/files/${ctx.data.folderId}?fields=name&key=${apiKey}`;
     try {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: {
+          "Referer": "https://glebra.com.br/"
+        }
+      });
       if (!res.ok) return { name: "", error: "Not found" };
       const data = (await res.json()) as { name: string };
       return { name: data.name };
