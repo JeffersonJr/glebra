@@ -7,8 +7,7 @@ export default defineConfig({
   plugins: [
     tailwindcss(),
     tanstackStart({
-      target: "vercel",
-      server: { entry: "server" },
+      server: { preset: "vercel" },
     }),
     viteReact(),
   ],
