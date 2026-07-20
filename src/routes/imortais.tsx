@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site-header";
 import { Shield, BookOpen, Star, Sparkles } from "lucide-react";
+import { SiteFooter } from "@/components/site-footer";
 
 import imgCagliostro from "@/assets/imortais/cagliostro.png";
 import imgMarconis from "@/assets/imortais/marconis.png";
@@ -143,6 +144,7 @@ function ImortaisPage() {
           ))}
         </div>
       </main>
+      <SiteFooter />
     </div>
   );
 }

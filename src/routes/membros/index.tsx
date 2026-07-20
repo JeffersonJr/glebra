@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Search, UserPlus, CreditCard, ShieldCheck, Mail, Calendar, Hash } from "lucide-react";
 import logoUrl from "@/assets/logo-glebra.webp";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 
 export const Route = createFileRoute("/membros/")({
   head: () => ({
@@ -149,12 +150,7 @@ function MembersPortal() {
           </div>
         </div>
       </main>
-
-      <footer className="border-t border-border-gold/20 py-6 px-6 text-center">
-        <div className="mt-8 text-center text-xs text-muted-foreground">
-          © {new Date().getFullYear()} GLEBRA — Grande Loja Egípcia Brasileira
-        </div>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }
